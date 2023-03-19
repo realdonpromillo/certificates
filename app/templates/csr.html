@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>CSR</th>
+        <th>Key</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ csr.decode().replace('b\'', '').replace('\\n', '\n') }}</td>
+        <td>{{ key.decode().replace('b\'', '').replace('\\n', '\n') }}</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="mt-3">
+            <a href="{{ url_for('main.download_csr', cn=cn) }}" class="btn btn-primary">Download CSR</a>
+          </div>
+        </td>
+        <td>
+          <div class="mt-3">
+            <a href="{{ url_for('main.download_key', cn=cn) }}" class="btn btn-primary">Download Key</a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <hr>
+          <p><strong>Note:</strong> The key should be kept secret and stored in a secure location.</p>
+        </td>
+      </tr>
+  </tbody>
+  </table>
+{% endblock %}
