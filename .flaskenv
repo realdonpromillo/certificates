@@ -1,1 +1,1 @@
-FLASK_APP=cert.py
+FLASK_APP=certificates.py
