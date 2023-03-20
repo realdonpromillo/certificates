@@ -262,7 +262,7 @@ def delete_certificate(id):
 @bp.route('/admin_certs')
 @login_required
 def admin_certs():
-    if current_user.username != 'admin':
+    if current_user.is_admin is False:
         abort(403)
     page = request.args.get('page', 1, type=int)
     users = User.query.order_by(User.id.desc())
@@ -278,7 +278,7 @@ def admin_certs():
 @bp.route('/admin_users')
 @login_required
 def admin_users():
-    if current_user.username != 'admin':
+    if current_user.is_admin is False:
         abort(403)
     page = request.args.get('page', 1, type=int)
     users = User.query.order_by(User.id.desc()).paginate(
@@ -295,7 +295,7 @@ def admin_users():
 def admin_delete_user(id):
     user = User.query.get_or_404(id)
     if user.id != current_user.id:
-        if current_user.username != 'admin':
+        if current_user.is_admin is False:
             abort(403)
     db.session.delete(user)
     db.session.commit()
@@ -305,7 +305,7 @@ def admin_delete_user(id):
 @bp.route('/admin_unlock_user/<int:id>', methods=['POST'])
 @login_required
 def admin_unlock_user(id):
-    if current_user.username != 'admin':
+    if current_user.is_admin is False:
         abort(403)
     user = User.query.get_or_404(id)
     user.lockout_time = None
@@ -313,4 +313,15 @@ def admin_unlock_user(id):
     user.login_attempts = 0
     db.session.commit()
     flash('User unlocked.')
+    return redirect(url_for('main.admin_users'))
+
+@bp.route('/admin_make_admin/<int:id>', methods=['POST'])
+@login_required
+def admin_make_admin(id):
+    if current_user.is_admin is False:
+        abort(403)
+    user = User.query.get_or_404(id)
+    user.is_admin = True
+    db.session.commit()
+    flash('User is now admin.')
     return redirect(url_for('main.admin_users'))
