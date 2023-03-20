@@ -219,6 +219,10 @@ def download_pfx(cn):
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
+    if user.is_admin != True:
+        not_admin = True
+    else:
+        not_admin = False
     ##certificates = user.certificates.order_by(Certificate.timestamp.desc())
     page = request.args.get('page', 1, type=int)
     certificates = current_user.certificates.order_by(Certificate.timestamp.desc()).paginate(
@@ -227,7 +231,7 @@ def user(username):
         if certificates.has_next else None
     prev_url = url_for('main.user', username=user.username, page=certificates.prev_num) \
         if certificates.has_prev else None
-    return render_template('user.html', title='User Table', user=user, certificates=certificates,
+    return render_template('user.html', title='User Table', user=user, certificates=certificates, not_admin=not_admin,
                            next_url=next_url, prev_url=prev_url)
 
 # Übernommen aus den Beispielen von Miguel Grinberg

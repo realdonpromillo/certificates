@@ -41,10 +41,10 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
     certificates = db.relationship('Certificate', backref='author', lazy='dynamic', cascade="all, delete")
-    login_attempts = db.Column(db.Integer, server_default='0')
-    login_locked = db.Column(db.Boolean, server_default='False')
+    login_attempts = db.Column(db.Integer, server_default='0', default=0)
+    login_locked = db.Column(db.Boolean, server_default='False', default=False)
     lockout_time = db.Column(db.DateTime, default=None)
-    is_admin = db.Column(db.Boolean, server_default='False')
+    is_admin = db.Column(db.Boolean, server_default='False', default=False)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
