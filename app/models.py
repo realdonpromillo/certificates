@@ -40,7 +40,10 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     password_hash = db.Column(db.String(128))
     token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
-    certificates = db.relationship('Certificate', backref='author', lazy='dynamic')
+    certificates = db.relationship('Certificate', backref='author', lazy='dynamic', cascade="all, delete")
+    login_attempts = db.Column(db.Integer, default=0)
+    login_locked = db.Column(db.Boolean, default=False)
+    lockout_time = db.Column(db.DateTime, default=None)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -88,6 +91,24 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
         if user is None or user.token_expiration < datetime.utcnow():
             return None
         return user
+    
+    def lockout(self):
+        self.login_locked = True
+        self.login_attempts = 0
+        self.lockout_time = datetime.utcnow()
+        db.session.commit()
+
+    def unlock(self):
+        self.login_locked = False
+        self.login_attempts = 0
+        self.lockout_time = None
+        db.session.commit()
+
+    def add_login_attempt(self):
+        self.login_attempts += 1
+        if self.login_attempts >= 10:
+            self.lockout()
+        db.session.commit()
 
 @login.user_loader
 def load_user(id):

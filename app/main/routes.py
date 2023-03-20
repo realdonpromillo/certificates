@@ -258,3 +258,59 @@ def delete_certificate(id):
     db.session.commit()
     flash('Certificate deleted.')
     return redirect(url_for('main.user', username=current_user.username))
+
+@bp.route('/admin_certs')
+@login_required
+def admin_certs():
+    if current_user.username != 'admin':
+        abort(403)
+    page = request.args.get('page', 1, type=int)
+    users = User.query.order_by(User.id.desc())
+    certificates = Certificate.query.order_by(Certificate.timestamp.desc()).paginate(
+        page=page, per_page=current_app.config['CERTIFICATES_PER_PAGE'], error_out=False)
+    next_url = url_for('main.admin_certs', username=current_user.username, page=certificates.next_num) \
+        if certificates.has_next else None
+    prev_url = url_for('main.admin_certs', username=current_user.username, page=certificates.prev_num) \
+        if certificates.has_prev else None
+    return render_template('admin_certs.html', title='Certs Admin', username=current_user.username, users=users, certificates=certificates,
+                           next_url=next_url, prev_url=prev_url)
+
+@bp.route('/admin_users')
+@login_required
+def admin_users():
+    if current_user.username != 'admin':
+        abort(403)
+    page = request.args.get('page', 1, type=int)
+    users = User.query.order_by(User.id.desc()).paginate(
+        page=page, per_page=current_app.config['CERTIFICATES_PER_PAGE'], error_out=False)
+    next_url = url_for('main.admin_users', username=current_user.username, page=users.next_num) \
+        if users.has_next else None
+    prev_url = url_for('main.admin_users', username=current_user.username, page=users.prev_num) \
+        if users.has_prev else None
+    return render_template('admin_users.html', title='Users Admin', user=current_user, users=users,
+                           next_url=next_url, prev_url=prev_url)
+
+@bp.route('/admin_delete_user/<int:id>', methods=['POST'])
+@login_required
+def admin_delete_user(id):
+    user = User.query.get_or_404(id)
+    if user.id != current_user.id:
+        if current_user.username != 'admin':
+            abort(403)
+    db.session.delete(user)
+    db.session.commit()
+    flash('User deleted.')
+    return redirect(url_for('main.admin_users'))
+
+@bp.route('/admin_unlock_user/<int:id>', methods=['POST'])
+@login_required
+def admin_unlock_user(id):
+    if current_user.username != 'admin':
+        abort(403)
+    user = User.query.get_or_404(id)
+    user.lockout_time = None
+    user.login_locked = False
+    user.login_attempts = 0
+    db.session.commit()
+    flash('User unlocked.')
+    return redirect(url_for('main.admin_users'))

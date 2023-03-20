@@ -4,11 +4,7 @@
     <table class="table table-hover">
         <tr>
             <td>
-                <h1>User: {{ user.username }}</h1>
-                {% if user.username != 'admin' %}
-                <p><a href="{{ url_for('main.edit_profile') }}">Edit your profile</a></p>
-                <p><a href="{{ url_for('auth.reset_password_request') }}">Change password</a></p>
-                {% endif %}
+                <h1>User: {{ username }}</h1>
             </td>
         </tr>
     </table>
@@ -16,6 +12,7 @@
       <thead>
         <tr>
           <th>Time</th>
+          <th>User</th>
           <th>Common Name</th>
           <th>Organization</th>
           <th>CSR</th>
@@ -30,6 +27,11 @@
         {% for certificate in certificates %}
           <tr>
             <td>{{ certificate.timestamp }}</td>
+            {% for user in users %}
+              {% if user.id == certificate.user_id %}
+                <td>{{ user.username }}</td>
+              {% endif %}
+            {% endfor %}
             <td>{{ certificate.cn }}</td>
             <td>{{ certificate.organization }}</td>
             <td><a href="{{ url_for('main.download_csr', cn=certificate.cn) }}">Download CSR</a></td>
