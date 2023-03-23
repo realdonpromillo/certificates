@@ -9,13 +9,16 @@ from app.main import bp
 from OpenSSL import SSL
 import base64
 from io import BytesIO
+from flask import send_from_directory
+import os
+
 
 #Übernommen aus den Beispielen von Miguel Grinberg
 @bp.route('/')
 @bp.route('/index')
 @login_required
 def index():
-    return render_template("index.html", title='Home Page')
+    return redirect(url_for('main.user', username=current_user.username))
 
 # Eigenentwicklung
 @bp.route("/generate_csr", methods=["GET", "POST"])
