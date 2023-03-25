@@ -59,21 +59,23 @@ class CSRForm(FlaskForm):
         ('Zug', 'Zug'),
         ('Zürich', 'Zürich'),
     ] )
-    organization = StringField('Organization', validators=[DataRequired()])
-    organizational_unit = StringField('Organizational Unit')
-    common_name = StringField('Common Name', validators=[DataRequired()])
+    organization = StringField('Organization', validators=[DataRequired(), Length(max=64)])
+    organizational_unit = StringField('Organizational Unit', validators=[Length(max=64)])
+    common_name = StringField('Common Name', validators=[DataRequired(), Length(max=64)])
     subject_alternative_name = StringField('Subject Alternative Name')
     submit = SubmitField('Generate CSR')
 
 class CertForm(FlaskForm):
     common_name = StringField('Common Name', validators=[DataRequired()])
-    certificate = TextAreaField('Certificate', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Generate P12')
+    certificate = TextAreaField('Signed Certificate (-----BEGIN CERTIFICATE-----)', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=128)])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('password'), Length(min=8, max=128)])
+    submit = SubmitField('Generate PFX')
 
 class EditProfileForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    username = StringField('Username', validators=[DataRequired(), Length(min=4, max=64)])
+    email = StringField('Email', validators=[DataRequired(), Email(), Length(min=4, max=120)])
     submit = SubmitField('Submit')
 
     def __init__(self, original_username, original_email, *args, **kwargs):
@@ -94,7 +96,9 @@ class EditProfileForm(FlaskForm):
                 raise ValidationError('Please use a different email address.')
     
 class ConvertCertificateForm(FlaskForm):
-    private_key = TextAreaField('Private Key', validators=[DataRequired()])
-    public_key = TextAreaField('Public Key', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    private_key = TextAreaField('Private Key (-----BEGIN PRIVATE KEY-----)', validators=[DataRequired()])
+    public_key = TextAreaField('Signed Certificate (-----BEGIN CERTIFICATE-----)', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=128)])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('password'), Length(min=8, max=128)])
+    submit = SubmitField('Convert to PFX')

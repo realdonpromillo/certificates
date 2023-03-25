@@ -12,13 +12,17 @@ from io import BytesIO
 from flask import send_from_directory
 import os
 
-
 #Übernommen aus den Beispielen von Miguel Grinberg
 @bp.route('/')
 @bp.route('/index')
 @login_required
 def index():
     return redirect(url_for('main.user', username=current_user.username))
+
+@bp.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(current_app.root_path, 'static'),
+                               'favicon.png', mimetype='image/vnd.microsoft.icon')
 
 # Eigenentwicklung
 @bp.route("/generate_csr", methods=["GET", "POST"])
@@ -125,9 +129,9 @@ def download_certificate():
             return response
         
         except Exception as e:
-            error_message = str(e)
-            return render_template('convert_error.html', title='Error Converting Certificate', error_message=error_message)
-               
+            abort(500)
+            
+        
     return render_template('download_certificate.html', title='Download Certificate', form=form)
 
 # Eigenentwicklung
@@ -160,8 +164,7 @@ def convert_certificate():
             return response
         
         except Exception as e:
-            error_message = str(e)
-            return render_template('convert_error.html', title='Error Converting Certificate', error_message=error_message)
+            abort(500)
         
     return render_template('convert_certificate.html', title='Convert Certificate', form=form)    
 
@@ -247,7 +250,7 @@ def edit_profile():
         current_user.email = form.email.data
         db.session.commit()
         flash('Your changes have been saved.')
-        return redirect(url_for('main.edit_profile'))
+        return redirect(url_for('main.user', username=current_user.username))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email

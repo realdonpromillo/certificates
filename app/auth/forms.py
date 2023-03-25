@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import User
 
 class LoginForm(FlaskForm):
@@ -10,11 +10,11 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired(), Length(min=4, max=64)])
+    email = StringField('Email', validators=[DataRequired(), Email(), Length(min=4, max=120)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=128)])
     password2 = PasswordField(
-        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+        'Repeat Password', validators=[DataRequired(), EqualTo('password'), Length(min=8, max=128)])
     submit = SubmitField('Register')
 
     def validate_username(self, username):
@@ -29,7 +29,8 @@ class RegistrationForm(FlaskForm):
         
 class ResetPasswordForm(FlaskForm):
     old_password = PasswordField('Old Password', validators=[DataRequired()])
-    new_password = PasswordField('New Password', validators=[DataRequired(), EqualTo('confirm_password', message='Passwords must match')])
-    confirm_password = PasswordField('Confirm New Password', validators=[DataRequired()])
+    new_password = PasswordField('New Password', validators=[DataRequired(), Length(min=8, max=128)])
+    confirm_password = PasswordField(
+        'Confirm New Password', validators=[DataRequired(), EqualTo('new_password', message='Passwords must match'), Length(min=8, max=128)])
     submit = SubmitField('Reset Password')
     

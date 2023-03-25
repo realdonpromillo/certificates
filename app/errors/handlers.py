@@ -8,7 +8,6 @@ def wants_json_response():
     return request.accept_mimetypes['application/json'] >= \
         request.accept_mimetypes['text/html']
 
-
 @bp.app_errorhandler(403)
 def forbidden(error):
     if wants_json_response():

@@ -14,7 +14,6 @@
           <th>ID</th>
           <th>Username</th>
           <th>Mail</th>
-          <th>Token</th>
           <th>Token Expiration</th>
           <th>Unlock</th>
           <th>Make Admin</th>
@@ -30,10 +29,8 @@
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
             {% if user.token %}
-            <td>{{ user.token }}</td>
             <td>{{ user.token_expiration }}</td>
             {% else %}
-            <td>No token yet</td>
             <td>No token yet</td>
             {% endif %}
             {% if user.login_locked %}
