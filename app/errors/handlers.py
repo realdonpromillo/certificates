@@ -8,6 +8,12 @@ def wants_json_response():
     return request.accept_mimetypes['application/json'] >= \
         request.accept_mimetypes['text/html']
 
+@bp.app_errorhandler(400)
+def invalid_data(error):
+    if wants_json_response():
+        return api_error_response(400)
+    return render_template('errors/400.html'), 400
+
 @bp.app_errorhandler(403)
 def forbidden(error):
     if wants_json_response():

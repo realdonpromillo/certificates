@@ -1,0 +1,896 @@
+{
+    "openapi" : "3.0.1",
+    "info" : {
+      "title" : "defaultTitle",
+      "description" : "defaultDescription",
+      "version" : "0.1"
+    },
+    "servers" : [ {
+      "url" : "https://viccnick.azurewebsites.net"
+    } ],
+    "paths" : {
+      "/api/users/<int>" : {
+        "put" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "requestBody" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "email" : {
+                      "type" : "string"
+                    },
+                    "username" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\n    \"username\": \"testdata\",\n    \"email\": \"testdata@test.com\"\n    \n}"
+                  }
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "_links" : {
+                        "type" : "object",
+                        "properties" : {
+                          "self" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "certificates_count" : {
+                        "type" : "integer"
+                      },
+                      "id" : {
+                        "type" : "integer"
+                      },
+                      "email" : {
+                        "type" : "string"
+                      },
+                      "username" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"_links\":{\"self\":\"/api/users/5\"},\"certificates_count\":51,\"email\":\"testdata@test.com\",\"id\":5,\"username\":\"testdata\"}\n"
+                    }
+                  }
+                }
+              }
+            },
+            "401" : {
+                "description" : "Auto generated using Swagger Inspector",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Unauthorized\"}\n"
+                    }
+                    }
+                }
+                }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://viccnick.azurewebsites.net"
+        } ]
+        },
+      "/api/convert_certificate" : {
+        "post" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "requestBody" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "public_key" : {
+                      "type" : "string"
+                    },
+                    "private_key" : {
+                      "type" : "string"
+                    },
+                    "passphrase" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\n    \"private_key\":\"-----BEGIN PRIVATE KEY-----\\n    MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCl4ZWR/x057L+x\\n    l9GP6QjGyPLXwIiTqj69J8EdxLZTaw3VpwbNnIlZhTwRHoC+skoQrUn6eytfxgSI\\n    qh6jXgIJ4iIr+jBFoPvl6uR1q1LFLnFm3IiGI/qIN7ew4Y0p1w9Yk9SAmUxcAqlB\\n    VTRKN4bn1Rpslv9MKouJJeM0v1qV7yEWYZO1F1QBhgTSYWJs0dgc6Z+Od2AxTktD\\n    Yiza4MGzH3m8izpcy44YHyYKMVvANMgBJttWOu/RDHFKoN2zxPcYxjucMQOfmBbC\\n    +iJV2T16KmME3E3n8srqKNr+i8kGgVoPS6I3U8TI7aehtDpf1KHD3oo3PVu5P5w2\\n    gM66v8LbAgMBAAECggEAPVKJLBk/ETBb50fEIWrZIz+bQrY65zfrDJtbMWmMq4bq\\n    bN7bzXv+bJksDPoVRyn65nJhZFdPQA8gkvMs82Dn6QZvcomBeeQa6zKsNXHZ3eoe\\n    4xNI5yn6zoumfR3MxThrRGgWCVpil6smLfBVLdCcLy0hIR6rD1m1DsTyWwgYcU+G\\n    s5XBYCqY7VybIUyO7uJvw83Y5//HHBza59jkiyuUiCLwIQhk/ESg+B34got9sfju\\n    9ydoleUf8arXbvfXNuN9/qP7h5HXVVmCnvUoR3d68FAP1QlmOBtU7PvB1sKd/p2s\\n    4ULtClr7PMSD19kFjNC2gP89Z3vAwsIfZvUwCR9YlQKBgQDN4O3hgAvpPU81bEtg\\n    A+T1RkNj6GGG9TE7w7Bu4DIRptTWTLI6XyAgZHpR3sKil+2ueRU2k5zpO8usfAvA\\n    ywj6Lp7vCcIP0Jrcnw5gXlZoDcE7PKLQAbjGWq1p/61zCX1BV7OrTKQawd3z+3CJ\\n    0VTFPaLShvyX6356xOBZkdhELwKBgQDOQ+AsGm2IBooqA0mDbXBIxrrPHdVm/a0p\\n    OzxtuzKPkc9razwxXdAlBdCezaj5T/AQaAsNh3luKdNbWZevFslIJu1QSRvHdtWf\\n    yP+da9h12gRhkGODF7rsbbRVVRCyzVPbnJqAqKJ99m6paXdW/yVss7w/4hKIqFhN\\n    znU23JbFFQKBgDzHrvLn7pxJMV1AP3B1Nd8Dg1m3fTNup75RI4FYRu/XJPavZd69\\n    vqpRf5sz/Jor6EueC5k1MxnYQWUGqiGcz2Ws5dcENnqcx1tiycfBkhjeFrH6UMa/\\n    +2Dz3EZy6S4RGx1zWuOzmK8dlP02uh614iTo8Wzd1Sy0pX5xKRrIZ+SZAoGAIWFe\\n    sAR+4VqdlXr+tKRLXZu7s7USSh6XnWqWtvNqlU11kd7C2QJjovoz7t89j0tegGk2\\n    ELRx9GAUcl4nbBB19pVGJo4OTtNucvNmWqWPXFMyDk/9qsN2XrjKTFz93NHZ1lqb\\n    rmKcGWJ+OjB1PcEA33ye5H/DnBYSZFUbJwu/4pkCgYEAoz1Y2YpB64qN57qGxPxX\\n    HAjQui7ALbAaBZ6SF4LwTnXxJ2K+AG/xdhSYiV11BnwNpSx/DHxi8CM44pnOoLJT\\n    yhl5MAmUGfLB4S8Oh4XycIdFKcezXKGMphNP6tXHZ43CFPtQf3AW89Uy9k0ZzFS7\\n    8jmDUVABZ9ZgC7hObz4pnRk=\\n-----END PRIVATE KEY-----\\n    \",\n    \"public_key\":\"-----BEGIN CERTIFICATE-----\\n    MIIDjTCCAnWgAwIBAgICCLswDQYJKoZIhvcNAQELBQAwWjELMAkGA1UEBhMCVVMx\\n    EzARBgNVBAgTCldhc2hpbmd0b24xEDAOBgNVBAcTB1NlYXR0bGUxJDAiBgNVBAoT\\n    G2dldGFDZXJ0IC0gd3d3LmdldGFjZXJ0LmNvbTAeFw0yMzAzMjYwOTExMjZaFw0y\\n    MzA1MjUwOTExMjZaMGsxCzAJBgNVBAYTAkNIMQ0wCwYDVQQIDARCZXJuMQ0wCwYD\\n    VQQHDARCZXJuMRAwDgYDVQQKDAdUZXN0T3JnMSwwKgYDVQQDDCNua2Rhc25kYXNk\\n    c2FkYWRhc2FzZGFzZHNhZC5wbmV0LmNobjCCASIwDQYJKoZIhvcNAQEBBQADggEP\\n    ADCCAQoCggEBAKXhlZH/HTnsv7GX0Y/pCMbI8tfAiJOqPr0nwR3EtlNrDdWnBs2c\\n    iVmFPBEegL6yShCtSfp7K1/GBIiqHqNeAgniIiv6MEWg++Xq5HWrUsUucWbciIYj\\n    +og3t7DhjSnXD1iT1ICZTFwCqUFVNEo3hufVGmyW/0wqi4kl4zS/WpXvIRZhk7UX\\n    VAGGBNJhYmzR2Bzpn453YDFOS0NiLNrgwbMfebyLOlzLjhgfJgoxW8A0yAEm21Y6\\n    79EMcUqg3bPE9xjGO5wxA5+YFsL6IlXZPXoqYwTcTefyyuoo2v6LyQaBWg9LojdT\\nxMjtp6G0Ol/UocPeijc9W7k/nDaAzrq/wtsCAwEAAaNMMEowCQYDVR0TBAIwADAR\\n    BglghkgBhvhCAQEEBAMCBPAwCwYDVR0PBAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUF\\n    BwMCBggrBgEFBQcDATANBgkqhkiG9w0BAQsFAAOCAQEANLRxBqjbnbOh6m0ijqOG\\n    wYqbwEDQ+xasnAWWCxNPIRYqHGsU2b1jpWqj+IyWhP7VziprxtiGB0QRT4Ejkrsc\\n    drYG9WHeknny9rUTuiUaKIMbi5wH4EVVDVruaSJaRY7X/k7J3WbykXvJoCcuJbVg\\n1Nl69Nbc+8SBFnxIs/O/SQnfEITNKdHvOUQXhVSLntEufn+H0OGNZbBlTmZHZAl1\\n    /TdOVftdGq3VV2FNNDBtLbb4qc30KoqOdx6JFWwjSK7qSeTDtZAuP7O7ZrgpNGkH\\n    RtyVwk5NDRGKr0VLzMH6kSPmsqShRWM1tx1wRgbuuXHioSmviDSULRIs8gQxeN2d\\n+w==\\n-----END CERTIFICATE-----\",\n    \"passphrase\": \"testpassword\"\n}"
+                  }
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "data" : {
+                        "type" : "object",
+                        "properties" : {
+                          "pfx" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "status" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"data\":{\"pfx\":\"MIIJ3QIBAzCCCZcGCSqGSIb3DQEHAaCCCYgEggmEMIIJgDCCBDcGCSqGSIb3DQEHBqCCBCgwggQkAgEAMIIEHQYJKoZIhvcNAQcBMBwGCiqGSIb3DQEMAQMwDgQIDCJyHm6pDAsCAggAgIID8JH7RGK011ZLRkD8uqubuql+PNZsla2unjyYcCu/KU+y7XqUwM4oOqvvqB64/BVa3GZqkjq4/em+8sa6uGUyxbzwIwg2tx7pq1zNTXAYRc5F6Jr9V70jsXtoskY6vT8oIa7gsku02PEY13HpThW92DOoZu2YhRnxrbMWbERonRyMkyUcloViBlImh8806qq/krBJYvjC36ZW9Q96A0W+gmDIWIVTb7ixz0I5IBgKrR08D9dZ6NFQ4KYR0RuQKv2aelvkak3aJ6IN2ALPDeTt3gWXchb6cYOasSpKiEPvoWxqUHOXRsqcVJOfR6H0YGwHs7hCrxZqeKDJN6knP0POfPotM/z2aQKEGe2XHF0A52b2j+OA89iOhPGs0Quz7pClb8scMt/D/cmy7eKAecKr9WPoKxtUYh9liaZYLf1XXv9RB0TQOmhZ7MGZ3+lvvHUigoLz5SRYwryNPAEp5DHE0bM+THeA9SYcs9leQdydu3Wd0umqVeJiW/tWVEnQtuR+waPZmE//IEJeCOLIBzekvdgu0E4eHW5MtJRi1bvKFHG4VmxEEFRur5aSP6ksxl85pcIl1jd3+ytyic3tn46kfoCVrUPnrKDfq574Gr/Knr2PFFFl5L3MrC8kSCNjevEyRrVgrwVr6cM/FHGlidMdDojFlduUrexxZRyfGMWkjWbPvzkORiJugt1FfLIT34ES0y+dHIb3qHEN3zHBOQpdnenxfl2s1fZU9o3t6cf2Qa8EJYGaoqsBY84tEKOFOm2nCb0CqdlkJuXtwvHKyOr0hvnkKG7JxfaTJgmnwa6VopB2st4cd2HP2gUFc3djz27xjNJwKGCRvJvcmC2/exJjW8wuZEXxdktc3hVCa3Kx8wWdtlB343i7As2CzN5k5cUSZ338VjxnoECN/4Zo4EPTZsD4IfP7Ie92cclT3aeuSzOgzXjY6N3xf9k55F4Ch7S76S82BoBOOtNT0DCGtn+L3LI89mfdiC5Yr8gzqzk+FlPQiWEPtE/G3H9eD0r2FNnio1BtVeYHjeVcEUl+45gCxX2JJHOkFAWgT8dCv+Obo1Ru9ZI23aiqpKieGErSMHg/6xjTp8XIUGShX1JuEoFHtmVPtf6m5WQmHaQs2065idAnSenOG+yz3Mici1VjtrecUxVzX5jcCpnbXN3/eEwUyhDi7KJ+wRWpLd7zXCZwOVYi2ZnwKxSFEDTQnXBuMU/Hi4lj1Vks7q3lkh0gvHcJnWAhSLGA28Ej/zWojp+OrC18gFP2f3os0zrNAHUM/Ze8ntFtnqM+YDQdEhZO6ej6W2RH3cMDGdJn13YF+zk3mnMRN+EGG2VB6lwTe+eC0V+DHzCCBUEGCSqGSIb3DQEHAaCCBTIEggUuMIIFKjCCBSYGCyqGSIb3DQEMCgECoIIE7jCCBOowHAYKKoZIhvcNAQwBAzAOBAgkI0521FA9gwICCAAEggTIlFk/KtUIIJd2eEtezBlZK67UEgAUvZDqbu6wsoAi3v5DsSLkppGZEJaEBUenlIQ9kKSAj1JwkPg+rvr1iQqJSUeA8v56LpPnFNZCSdasE8sh6jQorPjAu95YGbgehmqqgqYXTqPPrRS6a2aVr6SXY/bE+vyanJamyNun6Bl/QJeC1tEBu4vNohsWqukIhWgwPZ7X7GlhOaiO8U3KLg+CZL99r/kCND2WWa46uY/uxMq+JHZgBzzG6pZq1pikNsngKwO8oeaP1FTUmKUqODbZqSPn9VeJ7tKBZsqcuc1Uu1vnNqtNEMR5I+7DbynJ9/+gDfXq8S4pTaU7LEv+0GKJ6wHgFKFvwJpdu+IVc/O7aqmjeQILVDAttYVVGJbCBh/QI+m4jQ1ZNN0nduAjwrZ/u1bfZxT07emHBnpfVk1tM2lRkgeTfKe5v9zsWvlugNqoRJ4H0PQ7yaL0BkiPQzXIGtbzp+UZl/7QodctWo1LoykoOZrfxxRnxibW9g4AzWOvI27JtrnzesFqcSJt/FDaoOkvVFGGtokGDMK//ZkNx9gGoWDEW81GV18gG0mIOULeBem12rMqRpp6QXmKF45SnqPOYQ9HG7r59pJumcWxfnJU84q2Ql3+iasASCwbSJq8UVytZa/EHbnf+1sZMqyrZtZ24rglmkPOJ8sOk+PX9J1NVfOf7JHGniAObydHJg5nfkZNidnc0ux8h5W2o3BkbYeO9RcT3gbAciiwi5fXOLvfGeuYgMmhId14vV3SZ44H5x6GdjbCd/8HyFW9/gsRkeBpYcjsxtPwMUz3w/xIsOunTstgBulp+/QEJCKgR+v/lVU5ICChnc6hD/eJj+TM9bTlv/Fhp4AjxpuxhwslpQKagh8Ch+bJdn7J0C2BV4qMz7whO5RVCX9IruDCRaR9P3NlBqcEa/nBKvcv4Lx7IUJcPk9jMbUw53E/VISYr0xyQaRaERBnjyiErZfqpIbmlTG3/Dvd1JmFUsJiWTHYeyvc+XamVYPUlFcoaTA1N2dpnWgaIOGu+Xt6AHGIQy+vIuTHjNdayC28c6LO/neTdG5UqbaPM3Hu7xL8SvtK4SWUHOAWRsxjr2GwVx04LVtJc0b2bD2Tj1v0smxAqARI/Nd8/ikbyxPGB2u+mr/rspcl2d4K+8IBcKx1OhFB/310wzLdN/XxmPjfGdYFAmijwm/EyGd1QTqS/eZpb+dm7rOQ8KoUwwVv09eF9M954Ygeu/T5shBlX/MfwqbGHbNysA7mX2QCQ2C61Ryn5Funx6ltWsMG2//5eQv0paPPUX4dn4ej9s5Hzo2I0V12ltLufkgdhglAfP5jQ5RGHRR0re1xLPnWAONgBsGOKMzq1UPPVuTlfq1ThlgwNlaXE646jMJyzwy2FXqGmC4pnsVxHQ/Xg0xECyUTlVTeRKfIBXa6HJ4HhKupO9vn5ZKMSp8o3sxjsP7wvZetfz0jxQoyLkXaJiVgVMqTO2IAAn+2TWoT18wCqIHN/jIyuD9qoaUM1OUwhzFEmivHEiVHCm1uNFVz/X/s1NKBK4iQZ4M6eFC9S5S9whACdXvWOU9x3eBhsnNFr9oWiSA9NR1GQOfW6kW24jUbIWAXAkdyHy9G6S6/INZ0nFjEZYjVMSUwIwYJKoZIhvcNAQkVMRYEFEW/U5dtYo+BXGHwukZIbx81jZsBMD0wMTANBglghkgBZQMEAgEFAAQgPG+GSMHahdPDtmG8okqidEVHb64G8DOJeLF9onO3JBoECGknwtJvd17z\"},\"status\":\"success\"}\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://viccnick.azurewebsites.net"
+        } ]
+      },
+      "/api/download/pfx/<common_name>" : {
+        "get" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "responses" : {
+            "200" : {
+                "description" : "Auto generated using Swagger Inspector",
+                "content" : {
+                  "application/json" : {
+                    "schema" : {
+                      "type" : "object",
+                      "properties" : {
+                        "data" : {
+                          "type" : "object",
+                          "properties" : {
+                            "pfx" : {
+                              "type" : "string"
+                            }
+                          }
+                        },
+                        "status" : {
+                          "type" : "string"
+                        }
+                      }
+                    },
+                    "examples" : {
+                      "0" : {
+                        "value" : "{\"data\":{\"pfx\":\"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\"},\"status\":\"success\"}\n"
+                      }
+                    }
+                  }
+                }
+              },
+            "404" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "error" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"error\":\"No PFX file found for this certificate.\"}\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://viccnick.azurewebsites.net"
+        } ]
+      },
+      "/api/certificates" : {
+        "get" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "_links" : {
+                        "type" : "object",
+                        "properties" : {
+                          "next" : {
+                            "type" : "string"
+                          },
+                          "prev" : { },
+                          "self" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "_meta" : {
+                        "type" : "object",
+                        "properties" : {
+                          "per_page" : {
+                            "type" : "integer"
+                          },
+                          "page" : {
+                            "type" : "integer"
+                          },
+                          "total_pages" : {
+                            "type" : "integer"
+                          },
+                          "total_items" : {
+                            "type" : "integer"
+                          }
+                        }
+                      },
+                      "items" : {
+                        "type" : "array",
+                        "items" : {
+                          "type" : "object",
+                          "properties" : {
+                            "_links" : {
+                              "type" : "object",
+                              "properties" : {
+                                "csr" : {
+                                  "type" : "string"
+                                },
+                                "pfx" : {
+                                  "type" : "string"
+                                },
+                                "key" : {
+                                  "type" : "string"
+                                }
+                              }
+                            },
+                            "organization" : {
+                              "type" : "string"
+                            },
+                            "cn" : {
+                              "type" : "string"
+                            },
+                            "id" : {
+                              "type" : "integer"
+                            },
+                            "timestamp" : {
+                              "type" : "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"_links\":{\"next\":\"/api/certificates?page=2&per_page=10\",\"prev\":null,\"self\":\"/api/certificates?page=1&per_page=10\"},\"_meta\":{\"page\":1,\"per_page\":10,\"total_items\":52,\"total_pages\":6},\"items\":[{\"_links\":{\"csr\":\"/api/download/csr/apitest10.test.com\",\"key\":\"/api/download/key/apitest10.test.com\",\"pfx\":\"/api/download/pfx/apitest10.test.com\"},\"cn\":\"apitest10.test.com\",\"id\":55,\"organization\":\"TestOrg\",\"timestamp\":\"2023-03-26T08:40:35Z\"},{\"_links\":{\"csr\":\"/api/download/csr/apitest.test.ch\",\"key\":\"/api/download/key/apitest.test.ch\",\"pfx\":\"/api/download/pfx/apitest.test.ch\"},\"cn\":\"apitest.test.ch\",\"id\":53,\"organization\":\"TestOrg\",\"timestamp\":\"2023-03-25T13:57:12Z\"},{\"_links\":{\"csr\":\"/api/download/csr/test.com\",\"key\":\"/api/download/key/test.com\",\"pfx\":\"/api/download/pfx/test.com\"},\"cn\":\"test.com\",\"id\":52,\"organization\":\"TestOrg\",\"timestamp\":\"2023-03-25T10:57:02Z\"},{\"_links\":{\"csr\":\"/api/download/csr/testdata50.test.ch\",\"key\":\"/api/download/key/testdata50.test.ch\",\"pfx\":\"/api/download/pfx/testdata50.test.ch\"},\"cn\":\"testdata50.test.ch\",\"id\":51,\"organization\":\"TestOrg\",\"timestamp\":\"2023-03-21T17:54:25Z\"},{\"_links\":{\"csr\":\"/api/download/csr/testdata49.test.ch\",\"key\":\"/api/download/key/testdata49.test.ch\",\"pfx\":\"/api/download/pfx/testdata49.test.ch\"},\"cn\":\"testdata49.test.ch\",\"id\":50,\"organization\":\"TestOrg\",\"timestamp\":\"2023-03-21T17:54:25Z\"},{\"_links\":{\"csr\":\"/api/download/csr/testdata48.test.ch\",\"key\":\"/api/download/key/testdata48.test.ch\",\"pfx\":\"/api/download/pfx/testdata48.test.ch\"},\"cn\":\"testdata48.test.ch\",\"id\":49,\"organization\":\"TestOrg\",\"timestamp\":\"2023-03-21T17:54:24Z\"},{\"_links\":{\"csr\":\"/api/download/csr/testdata47.test.ch\",\"key\":\"/api/download/key/testdata47.test.ch\",\"pfx\":\"/api/download/pfx/testdata47.test.ch\"},\"cn\":\"testdata47.test.ch\",\"id\":48,\"organization\":\"TestOrg\",\"timestamp\":\"2023-03-21T17:54:23Z\"},{\"_links\":{\"csr\":\"/api/download/csr/testdata45.test.ch\",\"key\":\"/api/download/key/testdata45.test.ch\",\"pfx\":\"/api/download/pfx/testdata45.test.ch\"},\"cn\":\"testdata45.test.ch\",\"id\":46,\"organization\":\"TestOrg\",\"timestamp\":\"2023-03-21T17:54:21Z\"},{\"_links\":{\"csr\":\"/api/download/csr/testdata44.test.ch\",\"key\":\"/api/download/key/testdata44.test.ch\",\"pfx\":\"/api/download/pfx/testdata44.test.ch\"},\"cn\":\"testdata44.test.ch\",\"id\":45,\"organization\":\"TestOrg\",\"timestamp\":\"2023-03-21T17:54:20Z\"},{\"_links\":{\"csr\":\"/api/download/csr/testdata43.test.ch\",\"key\":\"/api/download/key/testdata43.test.ch\",\"pfx\":\"/api/download/pfx/testdata43.test.ch\"},\"cn\":\"testdata43.test.ch\",\"id\":44,\"organization\":\"TestOrg\",\"timestamp\":\"2023-03-21T17:54:19Z\"}]}\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://viccnick.azurewebsites.net"
+        } ]
+      },
+      "/api/download/csr/<common_name>" : {
+        "get" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "responses" : {
+            "200" : {
+                "description" : "Auto generated using Swagger Inspector",
+                "content" : {
+                  "application/json" : {
+                    "schema" : {
+                      "type" : "object",
+                      "properties" : {
+                        "csr" : {
+                          "type" : "string"
+                        },
+                        "_links" : {
+                          "type" : "object",
+                          "properties" : {
+                            "self" : {
+                              "type" : "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "examples" : {
+                      "0" : {
+                        "value" : "{\"_links\":{\"self\":\"/api/download/csr/testdata43.test.ch\"},\"csr\":\"-----BEGIN CERTIFICATE REQUEST-----\\nMIICsDCCAZgCAQAwWjEbMBkGA1UEAwwSdGVzdGRhdGE0My50ZXN0LmNoMQswCQYD\\nVQQGEwJDSDENMAsGA1UECAwEQmVybjENMAsGA1UEBwwEQmVybjEQMA4GA1UECgwH\\nVGVzdE9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMNi4z3UmCrH\\nhuHWn2+Wk4+JTAJO+b72bFEgEMjar/uPwHgQiJ5z9QwSm5dFB/xTUhwV313y70Ec\\n+gcbJsvRaIw/zzV1ksMP5FzqyBCzF9h2yS6drEwAO22yOmhaN5HoZ/K53mCpTiRK\\nnmxEs+JKZNnrKt3OcmuOwzX40jm3DxmEbMklg4S4/c6dMpfFG5k/SIvkDnkjNNxS\\ncBqZM8NUkuwavFmPOfKq2XFCvNGEiIZ0EP/J6M+VpdARN+BxsdOkpXPiShpg0AZH\\nuWKlmOUo8RETfOXSd7nngDLKFceSYIjTbiYiouZGuI7l6E1b0a5P1gHZomlemZ7C\\nwrO36mmEntMCAwEAAaARMA8GCSqGSIb3DQEJDjECMAAwDQYJKoZIhvcNAQELBQAD\\nggEBALM208Vqr6UI0KkSlP1/JVHoXX2OkHZeHX11TAMLZww2vKn8BAutT8gZVGGz\\nE9Rt7OY0Udhbv8Hkk/Uhl45ZV4jr1Qc4GK0uBqPpk2nvOO4uCtN0gvYVxq9HhvaW\\n760SdBYGcX4LsZW+vgtGqJhLbuGKLAbGR8Vt6fX2AzGEkFOKqGs/QhZ3u3bBFBes\\nS4dMtu9eOU3fR9r9OU4/DgEUoAMDdYG0wrMwMSzcU/w+K2c8Z7Swi38P4bpmGw4/\\nQjnAnN1d7CFvqmxFM0tDFkiLA9wQx2hnH5/tun2FPSqwX7Dkl/9EIpHvrnoTrdym\\nOsMyiiya0gyaZIqtYFrjbPAmf8E=\\n-----END CERTIFICATE REQUEST-----\\n\"}\n"
+                      }
+                    }
+                  }
+                }
+              },
+            "404" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "error" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"error\":\"Not Found\"}\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://viccnick.azurewebsites.net"
+        } ]
+      },
+      "/api/download/key/<common_name>" : {
+        "get" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "_links" : {
+                        "type" : "object",
+                        "properties" : {
+                          "self" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "key" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"_links\":{\"self\":\"/api/download/key/testdata43.test.ch\"},\"key\":\"-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDDYuM91Jgqx4bh\\n1p9vlpOPiUwCTvm+9mxRIBDI2q/7j8B4EIiec/UMEpuXRQf8U1IcFd9d8u9BHPoH\\nGybL0WiMP881dZLDD+Rc6sgQsxfYdskunaxMADttsjpoWjeR6Gfyud5gqU4kSp5s\\nRLPiSmTZ6yrdznJrjsM1+NI5tw8ZhGzJJYOEuP3OnTKXxRuZP0iL5A55IzTcUnAa\\nmTPDVJLsGrxZjznyqtlxQrzRhIiGdBD/yejPlaXQETfgcbHTpKVz4koaYNAGR7li\\npZjlKPERE3zl0ne554AyyhXHkmCI024mIqLmRriO5ehNW9GuT9YB2aJpXpmewsKz\\nt+pphJ7TAgMBAAECggEAGAKPZTo6RsuFHjyHFCnfUTywe/ojg515mxCDL4N8K8Az\\nCS4S89HRE543w4OGozHD/dKMQ9nGH+zFJtllz5cYr19qAapEkjbiO67YTgEMFZwn\\nRdS3ZxGCPA0yUz9+4625FGFV2/ACO8B1rl1U86JruUHGX0Ju2hvNjlTY1KHTt7FQ\\nsjOpTm5r2zSr4mXTpWvElqw1vqPwjfNRvCGRN5YuJT44GUKI63rwlZUmGA2A11Lo\\n9GBEJWsgzwA/VSSbLBu1xYlPWSnvwMgAMeGbAzcBdrayHJBIYwFb9I/r22PLIbz7\\n1ArIo5dVNNDqDjpQJLV96RbwjWcMM/eO7iud8AXDFQKBgQDSpsq3UinIS5Gk1Vl6\\nj8ggLf+zKeML4igyc/O0GgDmPXuJm3Ydm5ZYiLTFd/U4SJFNhxmbGXOUBBdjtF3u\\nIWTMgV8/HaH7DhXEF2WpWpdXqIRD7ZpxRFQa6qMoCsNHnnIiXRl6CXqm01gwrfVh\\njtj7hxU5Lb1/8o7pT0puMSWJlQKBgQDtctAsJRcXU2EG+oS9XhopzJD7HBU5lvHP\\n8DFmYrLOkef/FrOHPaODWvdJyLu1PGJBCd7nORKZBDCu67m7gRP3/uwaoKXx68IZ\\nWDmxXuyNo96mIqBqrQVnCFvPQmgfDKzOELJsAGJRpwPb+6Kx9DaTUiG8Ayvxw1nz\\nHfAEUEj8xwKBgEprVHiZVVuGnwiduwPaofgEaC5yoNzE5DCW2EULXr/4fplpy7vA\\nCMh0W3Db5U0iDftWvEwYHMXxABZgVULYl1TMa8rPfDdGjZf+MBM5hvgX98pLueFE\\nI3Zy6Hsv+jdmGapcO7DqgmNHjQN9oY/6uFt8KJpPt3/pQGXadlAhmsJVAoGBAL63\\nrEr4044xs0omp71uOvd9zqlSyh2ChuEsnJEPD21ptfymoDYtJQuZYexKpbIROR3i\\nLr5rkeuDeRLWVU0shPx5LezJQeCJK1KuEVDM3JV7nJa2U0C7jg5OoWdcgEMILDgr\\nIxQqTs4kpq3ndKsYa0ly+5OGvKIn9TSXxDPCxIz7AoGAWrpqkUaZCt6pOhh43PB1\\nfc/xFHkYXGx9/QJ/A8O6Vy09A2IbnfgwHNM7ijhDou/uW++SQHFaYpCR1fjYzUeH\\nDUsBEeEwcYy353M0iyuW4MKCtulrVXG/rD2tdqCm5H8quuHVw03d7mrBfX50rODv\\nVs2eDRYNS+84p5R1B3VPOeo=\\n-----END PRIVATE KEY-----\\n\"}\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://viccnick.azurewebsites.net"
+        } ]
+      },
+      "/api/generate_csr" : {
+        "post" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "requestBody" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "country" : {
+                      "type" : "string"
+                    },
+                    "organization" : {
+                      "type" : "string"
+                    },
+                    "locality" : {
+                      "type" : "string"
+                    },
+                    "state" : {
+                      "type" : "string"
+                    },
+                    "common_name" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\n    \"state\":  \"Bern\",\n    \"organization\":  \"TestOrg\",\n    \"common_name\":  \"apitest10.test.com\",\n    \"locality\":  \"Bern\",\n    \"country\":  \"CH\"\n}"
+                  },
+                  "1" : {
+                    "value" : "{\n    \"state\":  \"Bern\",\n    \"organization\":  \"TestOrg\",\n    \"common_name\":  \"apitest10.test.com\",\n    \"locality\":  \"Bern\",\n    \"country\":  \"CH\"\n}"
+                  }
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "data" : {
+                        "type" : "object",
+                        "properties" : {
+                          "csr" : {
+                            "type" : "string"
+                          },
+                          "common_name" : {
+                            "type" : "string"
+                          },
+                          "key" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "status" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"data\":{\"common_name\":\"apitest10.test.com\",\"csr\":\"-----BEGIN CERTIFICATE REQUEST-----\\nMIICsDCCAZgCAQAwWjEbMBkGA1UEAwwSYXBpdGVzdDEwLnRlc3QuY29tMQswCQYD\\nVQQGEwJDSDENMAsGA1UECAwEQmVybjENMAsGA1UEBwwEQmVybjEQMA4GA1UECgwH\\nVGVzdE9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAI2q88yucvIm\\njRRS1J2iGN4GR5AjZViTCtrUzZCNcrOhperjfOeOvpvW7UNObZosHBKrSjBiT4GA\\nzTNnDyqUUn44ciHH0jwohuPDqBANJB2DIbEPKXQxaq1JV4dc4Qpazq5sny7vgr+D\\nHyCVXWadclqhyehPN2xr7litCO7tegM6adCVjGITgFru0oRlCAgieil818GYPJIi\\nwbcop5wsTMo6FTisNPaCOezQX6ImjFDYQZxOZkNJ6eZuV7mjo6P0QOgxZRwL7DcX\\nItBA/F1eu6+ueBMBwXPPGIaTENrOlhSnDzeN5RAUB4aqu3mItHOhYjnbxK6WTd3O\\nd24/AKwXbFcCAwEAAaARMA8GCSqGSIb3DQEJDjECMAAwDQYJKoZIhvcNAQELBQAD\\nggEBAAJEH9PuEoP14zEC3nHIaajuPo+elWy2u4AU3r/UXUs+ewCYbiIvszMdsRgU\\n+MG7ORdtouZijziwK0iMpylwTbNkrgg5lpvUI3WpaMm+2ePCiPE8dByR2mV7ZXNH\\nQK2zQi3PcMpSgNHlL6irlyuBggtnOFEW9BgHI2mwpIshiw0smgZowHUPkESrPTk2\\ngKdZg+viVlZCm7djLX9v5ij5jRav9X9B/B/BuNDFNe9oJxiM8ZvrkxZ98DHNxFD5\\nsa34xCbodNJK9da5yKyDG1epe5Mj+wDuNgL7Jn32FWGrFDSXuCyPvUgeChqIMD4B\\nx9H/1eGWpsiEzoqIl0/vMxQ2IoI=\\n-----END CERTIFICATE REQUEST-----\\n\",\"key\":\"-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCNqvPMrnLyJo0U\\nUtSdohjeBkeQI2VYkwra1M2QjXKzoaXq43znjr6b1u1DTm2aLBwSq0owYk+BgM0z\\nZw8qlFJ+OHIhx9I8KIbjw6gQDSQdgyGxDyl0MWqtSVeHXOEKWs6ubJ8u74K/gx8g\\nlV1mnXJaocnoTzdsa+5YrQju7XoDOmnQlYxiE4Ba7tKEZQgIInopfNfBmDySIsG3\\nKKecLEzKOhU4rDT2gjns0F+iJoxQ2EGcTmZDSenmble5o6Oj9EDoMWUcC+w3FyLQ\\nQPxdXruvrngTAcFzzxiGkxDazpYUpw83jeUQFAeGqrt5iLRzoWI528Sulk3dzndu\\nPwCsF2xXAgMBAAECggEAP6cktP5bEldlA1E2S/+FydirdeWZh0NGWM3N8VnExFZo\\nzNHbENXv6eiXoarPDzsrf+3rvzKlA4yiZqqzQ0/ygtkM2wXD/hi9hwAl9tRYulPt\\novcripQbmPG/vMfsK3FitTeEDJw8NJ2PMl46Yb1zoKpaJKHXRsV2Cezxex1Ducft\\nlPMBIIzpco2RKbexYJDUw6IldrZW9WkF13tkKWhOlE2i9cgxs/yay0VETmC5Ep1N\\nzNJaUp0ovzBfc/8rqUXVTd9dORAkUIEkdxXx25Olw90hpazydYeOjW7m92RnPI0/\\n1Rb7Vp/B5Q+lyPj7ez4BsZB7uwVLOwFa3963B6rX1QKBgQC7nEAjhmaUudHG9XTE\\nAqCbcAfZFpbwLIqLnQ8BZL0S3rje/BPEZjdfWGQfJGmv6rHyzOvJZ6R4lPsq1aRY\\nSt0IoDB4fCamFA27vkeI5KSh2J4PB4LyQx3U9Mel0j9QUOezbQLEqFIKtXnS4RQ8\\nyfkLdBcMEt7q/UmwP4Sfroih2wKBgQDBT1peY++0qMAy1G7if1A51uPynYgQFhT0\\nnK2ThKBb5xzOP1C1NTFEBvL/8F5i9keeXqS/wULM6G/wpyK8v+KsnD11O/Qg1uf1\\nRYiLyat/MQg3ZYxuZhN/gRKV+3WXEZ4MrftYjYf8tuNGXpL4RGSg3T+pNi19CKuA\\nQLS2H/beNQKBgBXh16lNF9HpCorGPmROWiVHH+M2O0ywJUi7fPCQq2z0BWQcysFx\\nmqvIR4VKXfliynajaC0Jpala1yDb4ltaAAXtiTnEYU2lsSRgwT86S+mEtorSOXfA\\nVE5uborsxu27Qgsvf88oQsl0+UybbBzbAe1QERAbc1y9RkcEYZeuZ8lZAoGBAKqA\\nHyjZ5Hbn0H4EuLi1qkEZtHwtTfFCSMFn4AEZHYdx1Qpk9f6eKBHkPzhW/ikzKAAb\\nYhxvjUfGS9Vq1Uy9wmSUefCJLM46PuUqq0EAY28QBDs4KiDFj7UKVyZKYHEabNiq\\nK+LzElpnxRYwHFk1mbv46UmKK5z4pKu+ZqWsk8VxAoGAUQioGCnVaNL+kqTjNul9\\nWd7FyYcYQOMlsAXqQUhizTslppVeFLCRMCPNjs8dobWogQ13U8NnXcUcaS0+tmdh\\nyXzk+tX+DrXqW5mqoQFT1xYD9of3ppaZCsbR66dOgIb53UnppunTwv6rX5clgv/L\\nLL+x9+G81idc8RoMKiyu7uk=\\n-----END PRIVATE KEY-----\\n\"},\"status\":\"success\"}\n"
+                    }
+                  }
+                }
+              }
+            },
+            "400" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "text/html; charset=utf-8" : {
+                  "schema" : {
+                    "type" : "string"
+                  },
+                  "examples" : { }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://viccnick.azurewebsites.net"
+        } ]
+      },
+      "/api/users" : {
+        "get" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "_links" : {
+                        "type" : "object",
+                        "properties" : {
+                          "next" : { },
+                          "prev" : { },
+                          "self" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "_meta" : {
+                        "type" : "object",
+                        "properties" : {
+                          "per_page" : {
+                            "type" : "integer"
+                          },
+                          "page" : {
+                            "type" : "integer"
+                          },
+                          "total_pages" : {
+                            "type" : "integer"
+                          },
+                          "total_items" : {
+                            "type" : "integer"
+                          }
+                        }
+                      },
+                      "items" : {
+                        "type" : "array",
+                        "items" : {
+                          "type" : "object",
+                          "properties" : {
+                            "_links" : {
+                              "type" : "object",
+                              "properties" : {
+                                "self" : {
+                                  "type" : "string"
+                                }
+                              }
+                            },
+                            "certificates_count" : {
+                              "type" : "integer"
+                            },
+                            "id" : {
+                              "type" : "integer"
+                            },
+                            "email" : {
+                              "type" : "string"
+                            },
+                            "username" : {
+                              "type" : "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"_links\":{\"next\":null,\"prev\":null,\"self\":\"/api/users?page=1&per_page=10\"},\"_meta\":{\"page\":1,\"per_page\":10,\"total_items\":7,\"total_pages\":1},\"items\":[{\"_links\":{\"self\":\"/api/users/2\"},\"certificates_count\":1,\"email\":\"admin@admin.ch\",\"id\":2,\"username\":\"admin\"},{\"_links\":{\"self\":\"/api/users/3\"},\"certificates_count\":0,\"email\":\"test2@test.com\",\"id\":3,\"username\":\"test2\"},{\"_links\":{\"self\":\"/api/users/4\"},\"certificates_count\":0,\"email\":\"apitestuser2@test.com\",\"id\":4,\"username\":\"apitestuser\"},{\"_links\":{\"self\":\"/api/users/5\"},\"certificates_count\":51,\"email\":\"testdata2@test.com\",\"id\":5,\"username\":\"testdata2\"},{\"_links\":{\"self\":\"/api/users/6\"},\"certificates_count\":0,\"email\":\"apicreateduser@test.com\",\"id\":6,\"username\":\"apicreateduser\"},{\"_links\":{\"self\":\"/api/users/7\"},\"certificates_count\":0,\"email\":\"testuser1@gmail.com\",\"id\":7,\"username\":\"testuser1\"},{\"_links\":{\"self\":\"/api/users/8\"},\"certificates_count\":0,\"email\":\"testuser12345@test.com\",\"id\":8,\"username\":\"testuser12345\"}]}\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "post" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "requestBody" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "password" : {
+                      "type" : "string"
+                    },
+                    "email" : {
+                      "type" : "string"
+                    },
+                    "username" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\n    \"username\": \"testuser99999999\",\n    \"password\": \"password1\",\n    \"email\": \"testuserr000000@gmail.com\"\n    \n}"
+                  },
+                  "1" : {
+                    "value" : "{\n    \"username\": \"testuser00000\",\n    \"password\": \"password1\",\n    \"email\": \"testuserr000000@gmail.com\"\n    \n}"
+                  },
+                  "2" : {
+                    "value" : "{\n    \"username\": \"testuser00000\",\n    \"password\": \"password1\",\n    \"email\": \"testuserr000000@gmail.com\"\n    \n}"
+                  }
+                }
+              }
+            }
+          },
+          "responses" : {
+            "201" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "_links" : {
+                        "type" : "object",
+                        "properties" : {
+                          "self" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "certificates_count" : {
+                        "type" : "integer"
+                      },
+                      "id" : {
+                        "type" : "integer"
+                      },
+                      "email" : {
+                        "type" : "string"
+                      },
+                      "username" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"_links\":{\"self\":\"/api/users/9\"},\"certificates_count\":0,\"email\":\"testuserr000000@gmail.com\",\"id\":9,\"username\":\"testuser00000\"}\n"
+                    }
+                  }
+                }
+              }
+            },
+            "400" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "error" : {
+                        "type" : "string"
+                      },
+                      "message" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"error\":\"Bad Request\",\"message\":\"please use a different email address\"}\n"
+                    },
+                    "1" : {
+                      "value" : "{\"error\":\"Bad Request\",\"message\":\"please use a different username\"}\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://viccnick.azurewebsites.net"
+        } ]
+      },
+      "/api/download/pfx/apitest.test.ch" : {
+        "get" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "data" : {
+                        "type" : "object",
+                        "properties" : {
+                          "pfx" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "status" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"data\":{\"pfx\":\"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\"},\"status\":\"success\"}\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://viccnick.azurewebsites.net"
+        } ]
+      },
+      "/api/download/pfx" : {
+        "post" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "requestBody" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "certificate" : {
+                      "type" : "string"
+                    },
+                    "passphrase" : {
+                      "type" : "string"
+                    },
+                    "cn" : {
+                      "type" : "string"
+                    }
+                  }
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{    \"certificate\": \"-----BEGIN CERTIFICATE-----\\n    MIIDfDCCAmSgAwIBAgICCLowDQYJKoZIhvcNAQELBQAwWjELMAkGA1UEBhMCVVMx\\n    EzARBgNVBAgTCldhc2hpbmd0b24xEDAOBgNVBAcTB1NlYXR0bGUxJDAiBgNVBAoT\\n    G2dldGFDZXJ0IC0gd3d3LmdldGFjZXJ0LmNvbTAeFw0yMzAzMjYwOTA3MTNaFw0y\\n    MzA1MjUwOTA3MTNaMFoxCzAJBgNVBAYTAkNIMQ0wCwYDVQQIDARCZXJuMQ0wCwYD\\n    VQQHDARCZXJuMRAwDgYDVQQKDAdUZXN0T3JnMRswGQYDVQQDDBJ0ZXN0ZGF0YTUw\\n    LnRlc3QuY2gwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCVvfef+lbc\\n    kYX5jGj75L8Obo7GQvA+Ga9dyOAaoOFRJeXlWg94+e4LHspwXGNokKBYhCOj5Uyn\\n    6T1sITAKNwUu+3j237eTL/P0cBAkZuurQHTRw+6jrtQKVUSulbzGX/3K1v67NRPc\\n    9wI1xSQo62sxn79d/4QqUmApirYNQCAZOOFW701bzrWplhO9UJ1GZ/A34YJbmAOn\\n    L9ypAFS8OTt+P03sYKvvjKedSw5nqpJ0nnR5Zgq2cIMVdZYpE3MErwwBGQxBtMTt\\n    JidCmCzNL+xhI0cOBn5n9RkhNzWirSIyyQjpCW44kCei1QoL7n6dD7gK+k7eRU9X\\n    qBaEHi54rL1zAgMBAAGjTDBKMAkGA1UdEwQCMAAwEQYJYIZIAYb4QgEBBAQDAgTw\\n    MAsGA1UdDwQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDQYJ\\n    KoZIhvcNAQELBQADggEBAGJufMI+vBMPBK+Ooi9bQj8TnDAq0cdjIp9aKgB6I1Dg\\n    snGP2t/PaEazmLwUfPIFiXxOht+iPnstIv97RsPbm30pFbSZuo1oWWyKAuhZPOV/\\n    XsIiS6q2iL39FUOR0Ai3lC05WCiGhHhyS1s1dAk/PaHO2YP5a5UKhQlPUMhs6vUQ\\n    bGgLekgiklsdk9ec3jHltlUbTSll8CFew0HgJNDJbZfdFOwZc7nR3GwCT5ue3wZm\\n    igorO9Jz8t9xq2IGpW//sz6BIQRMgR6KER3aOXEmHi1JcNQX0kaGMOrp7Ds7I5oF\\n    dDctMTBINUlakfNIIBpWfNFjVDc+ZopNrSbWUPSIxvU=\\n-----END CERTIFICATE-----\",\n    \"passphrase\": \"testpassword\",\n    \"cn\": \"testdata50.test.ch\"\n}"
+                  }
+                }
+              }
+            }
+          },
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "data" : {
+                        "type" : "object",
+                        "properties" : {
+                          "pfx" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "status" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"data\":{\"pfx\":\"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\"},\"status\":\"success\"}\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://viccnick.azurewebsites.net"
+        } ]
+      },
+      "/api/tokens" : {
+        "post" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "responses" : {
+            "200" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "token" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"token\":\"HHVtcfp/7YBt90khrSUhPAcyTizfaE51\"}\n"
+                    }
+                  }
+                }
+              }
+            },
+            "401" : {
+              "description" : "Auto generated using Swagger Inspector",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "error" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"error\":\"Unauthorized\"}\n"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "delete" : {
+          "description" : "Auto generated using Swagger Inspector",
+          "responses" : {
+            "204" : {
+              "description" : "Auto generated using Swagger Inspector"
+            }
+          },
+          "servers" : [ {
+            "url" : "https://viccnick.azurewebsites.net"
+          } ]
+        },
+        "servers" : [ {
+          "url" : "https://viccnick.azurewebsites.net"
+        } ]
+      }
+    },
+    "components" : {
+      "securitySchemes" : {
+        "oauth2" : {
+          "type" : "oauth2",
+          "flows" : {
+            "implicit" : {
+              "authorizationUrl" : "https://viccnick.azurewebsites.net/tokens",
+              "scopes" : {
+                "scope_name" : "Enter your scopes here"
+              }
+            }
+          }
+        },
+        "basic" : {
+          "type" : "http",
+          "scheme" : "basic"
+        }
+      }
+    }
+  }

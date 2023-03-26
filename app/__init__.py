@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from config import Config
+from config import SwaggerConfig
 
 # Übernommen aus den Beispielen
 app = Flask(__name__)
@@ -30,5 +31,7 @@ app.register_blueprint(main_bp)
 
 from app.api import bp as api_bp
 app.register_blueprint(api_bp, url_prefix='/api')
+
+app.register_blueprint(SwaggerConfig.SWAGGERUI_BLUEPRINT, url_prefix=SwaggerConfig.SWAGGER_URL)
 
 from app import models

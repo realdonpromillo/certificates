@@ -13,7 +13,7 @@ from app.api.errors import bad_request
 @token_auth.login_required
 def generate_csr():
     if not request.json:
-        abort(400, 'Invalid request data')
+        return bad_request('Invalid request data')
 
     data = request.json
     country = data.get('country', "CH")
@@ -24,26 +24,26 @@ def generate_csr():
     common_name = data.get('common_name')
     subject_alternative_name = data.get('subject_alternative_name', [])
 
+    # Check if common_name is present
+    if not common_name:
+        return bad_request('Common name is required')
+
     # Check if country is valid
     if not country or len(country) != 2:
-        abort(400, 'Invalid Country')
+        return bad_request('Invalid Country')
 
     # Check if common name has less than 64 characters
     if len(common_name) > 64:
-        abort(400, 'Common name must be 64 characters or fewer')
+        return bad_request('Common name must be 64 characters or fewer')
 
     # Check if common name has less than 64 characters
     if len(organization) > 64:
-        abort(400, 'organization must be 64 characters or fewer')
-
-    # Check if all fields are present
-    if not all([organization, common_name]):
-        abort(400, 'Missing required fields')
+        return bad_request('organization must be 64 characters or fewer')
 
     # Check if CSR with common name already exists
-    existing_csr = Certificate.query.filter_by(cn=common_name, user_id=g.user.id).first()
+    existing_csr = Certificate.query.filter_by(cn=common_name).first()
     if existing_csr:
-        abort(400, f"A certificate with common name '{common_name}' already exists.")
+        return bad_request(f"A certificate with common name '{common_name}' already exists.")
 
     #Create Keypair
     keypair = crypto.PKey()
@@ -133,7 +133,7 @@ def download_pfx(cn):
     cert = Certificate.query.filter_by(cn=cn, user_id=g.user.id).first_or_404()
 
     if not cert.pfx:
-        return jsonify({'error': 'No PFX file found for this certificate.'}), 404
+        return bad_request('No PFX file found for this certificate.')
 
     pfx_data_b64 = base64.b64encode(cert.pfx).decode('utf-8')
 
@@ -147,7 +147,7 @@ def download_pfx(cn):
 @bp.route('/convert_certificate', methods=['POST'])
 def convert_certificate():
     if not request.json:
-        abort(400, 'Invalid request data')
+        return bad_request('Invalid request data')
 
     data = request.json
     private_key = data.get('private_key')
@@ -155,7 +155,7 @@ def convert_certificate():
     passphrase = data.get('passphrase')
 
     if not all([private_key, public_key, passphrase]):
-        abort(400, 'Missing required fields')
+       return bad_request('Missing required fields')
     
     try:
         pkey = crypto.load_privatekey(crypto.FILETYPE_PEM, private_key)
@@ -167,7 +167,7 @@ def convert_certificate():
         # Convert pfx_data to a Base64-encoded string
         pfx_data_b64 = base64.b64encode(pfxdata).decode('utf-8')
     except Exception as e:
-        abort(400, f'Invalid certificate or private key: {e}')
+        return bad_request(f'Invalid certificate or private key: {e}')
     
     return jsonify({
         'status': 'success',
@@ -180,7 +180,7 @@ def convert_certificate():
 @token_auth.login_required
 def download_pfx_from_cert():
     if not request.json:
-        abort(400, 'Invalid request data')
+        return bad_request('Invalid request data')
     
     data = request.json
     cn = data.get('cn')
@@ -190,7 +190,7 @@ def download_pfx_from_cert():
     existing_key = Certificate.query.filter_by(cn=cn, user_id=g.user.id).first()
     private_key = existing_key.key
     if not existing_key:
-        abort(400, 'The Private Key for the Common Name in the CSR does not exist in the database')
+        return bad_request('The Private Key for the Common Name in the CSR does not exist in the database')
 
     try:
         pkey = crypto.load_privatekey(crypto.FILETYPE_PEM, private_key)
@@ -205,7 +205,7 @@ def download_pfx_from_cert():
         pfx_data_b64 = base64.b64encode(pfx_data).decode('utf-8')
 
     except Exception as e:
-        abort(400, f'Invalid certificate or private key: {e}')
+        return bad_request(f'Invalid certificate or private key: {e}')
 
 
     return jsonify({
