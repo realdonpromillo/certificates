@@ -22,4 +22,3 @@ class SwaggerConfig(object):
                         'app_name': "Certificates and Users API"
                 }
         )
-

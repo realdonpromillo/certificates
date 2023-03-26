@@ -1,8 +1,8 @@
 {
     "openapi" : "3.0.1",
     "info" : {
-      "title" : "defaultTitle",
-      "description" : "defaultDescription",
+      "title" : "VICCNick",
+      "description" : "Hope this works",
       "version" : "0.1"
     },
     "servers" : [ {
