@@ -1,17 +1,189 @@
 {
-    "openapi" : "3.0.1",
-    "info" : {
-      "title" : "VICCNick",
-      "description" : "Hope this works",
-      "version" : "0.1"
-    },
+    "components" : {
+        "securitySchemes" : {
+          "BearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"}
+          },
+          "basic" : {
+            "type" : "http",
+            "scheme" : "basic"
+          }
+        },
     "servers" : [ {
       "url" : "https://viccnick.azurewebsites.net"
     } ],
+    "openapi" : "3.0.1",
     "paths" : {
-      "/api/users/<int>" : {
+      "/api/tokens" : {
+            "post" : {
+              "description" : "Generate a token for a user",
+              "responses" : {
+                "200" : {
+                  "description" : "success",
+                  "content" : {
+                    "application/json" : {
+                      "schema" : {
+                        "type" : "object",
+                        "properties" : {
+                          "token" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "examples" : {
+                        "0" : {
+                          "value" : "{\"token\":\"HHVtcfp/7YBt90khrSUhPAcyTizfaE51\"}\n"
+                        }
+                      }
+                    }
+                  }
+                },
+                "400" : {
+                  "description" : "Bad Request",
+                  "content" : {
+                    "application/json" : {
+                      "schema" : {
+                        "type" : "object",
+                        "properties" : {
+                          "error" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "examples" : {
+                        "0" : {
+                          "value" : "{\"error\":\"Bad Request\"}\n"
+                        }
+                      }
+                    }
+                  }
+                },
+                "401" : {
+                  "description" : "Unauthorized",
+                  "content" : {
+                    "application/json" : {
+                      "schema" : {
+                        "type" : "object",
+                        "properties" : {
+                          "error" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "examples" : {
+                        "0" : {
+                          "value" : "{\"error\":\"Unauthorized\"}\n"
+                        }
+                      }
+                    }
+                  }
+                },
+                "500" : {
+                  "description" : "Internal Server Error",
+                  "content" : {
+                    "application/json" : {
+                      "schema" : {
+                        "type" : "object",
+                        "properties" : {
+                          "error" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "examples" : {
+                        "0" : {
+                          "value" : "{\"error\":\"Internal Server Error\"}\n"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "delete" : {
+              "description" : "Delete Token",
+              "security": [
+                {
+                  "BearerAuth": []
+                }
+              ],
+              "responses" : {
+                "204" : {
+                  "description" : "Deleted Token"
+                },
+                "400" : {
+                  "description" : "Bad Request",
+                  "content" : {
+                    "application/json" : {
+                      "schema" : {
+                        "type" : "object",
+                        "properties" : {
+                          "error" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "examples" : {
+                        "0" : {
+                          "value" : "{\"error\":\"Bad Request\"}\n"
+                        }
+                      }
+                    }
+                  }
+                },
+                "401" : {
+                    "description" : "Unauthorized",
+                    "content" : {
+                      "application/json" : {
+                        "schema" : {
+                          "type" : "object",
+                          "properties" : {
+                            "error" : {
+                              "type" : "string"
+                            }
+                          }
+                        },
+                        "examples" : {
+                          "0" : {
+                            "value" : "{\"error\":\"Unauthorized\"}\n"
+                          }
+                        }
+                      }
+                    }
+                },
+                "500" : {
+                  "description" : "Internal Server Error",
+                  "content" : {
+                    "application/json" : {
+                      "schema" : {
+                        "type" : "object",
+                        "properties" : {
+                          "error" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "examples" : {
+                        "0" : {
+                          "value" : "{\"error\":\"Internal Server Error\"}\n"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+        },
+      "/api/users/{user_id}" : {
         "put" : {
-          "description" : "Auto generated using Swagger Inspector",
+          "description" : "Get specific user",
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "requestBody" : {
             "content" : {
               "application/json" : {
@@ -36,7 +208,7 @@
           },
           "responses" : {
             "200" : {
-              "description" : "Auto generated using Swagger Inspector",
+              "description" : "success",
               "content" : {
                 "application/json" : {
                   "schema" : {
@@ -73,7 +245,7 @@
               }
             },
             "401" : {
-                "description" : "Auto generated using Swagger Inspector",
+                "description" : "Unauthorized",
                 "content" : {
                 "application/json" : {
                     "schema" : {
@@ -91,19 +263,68 @@
                     }
                 }
                 }
+            },
+            "404" : {
+                "description" : "Not Found",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Not Found\"}\n"
+                    }
+                    }
+                }
+                }
+            },
+            "500" : {
+                "description" : "Internal Server Error",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Internal Server Error\"}\n"
+                    }
+                    }
+                }
+                }
             }
           },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
-        },
-        "servers" : [ {
-          "url" : "https://viccnick.azurewebsites.net"
-        } ]
+          "parameters": [
+            {
+              "in": "path",
+              "id": "user_id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true
+            }
+          ]
+        }
         },
       "/api/convert_certificate" : {
         "post" : {
-          "description" : "Auto generated using Swagger Inspector",
+          "description" : "Convert certificate",
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "requestBody" : {
             "content" : {
               "application/json" : {
@@ -131,7 +352,7 @@
           },
           "responses" : {
             "200" : {
-              "description" : "Auto generated using Swagger Inspector",
+              "description" : "success",
               "content" : {
                 "application/json" : {
                   "schema" : {
@@ -157,22 +378,61 @@
                   }
                 }
               }
+            },
+            "400" : {
+                "description" : "Bad Request",
+                "content" : {
+                  "application/json" : {
+                    "schema" : {
+                      "type" : "object",
+                      "properties" : {
+                        "error" : {
+                          "type" : "string"
+                        }
+                      }
+                    },
+                    "examples" : {
+                      "0" : {
+                        "value" : "{\"error\":\"Bad Request\"}\n"
+                      }
+                    }
+                  }
+                }
+            },
+            "500" : {
+                "description" : "Internal Server Error",
+                "content" : {
+                  "application/json" : {
+                    "schema" : {
+                      "type" : "object",
+                      "properties" : {
+                        "error" : {
+                          "type" : "string"
+                        }
+                      }
+                    },
+                    "examples" : {
+                      "0" : {
+                        "value" : "{\"error\":\"Internal Server Error\"}\n"
+                      }
+                    }
+                  }
+                }
             }
-          },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
-        },
-        "servers" : [ {
-          "url" : "https://viccnick.azurewebsites.net"
-        } ]
+          }
+        }
       },
-      "/api/download/pfx/<common_name>" : {
+      "/api/download/pfx/{common_name}" : {
         "get" : {
-          "description" : "Auto generated using Swagger Inspector",
+          "description" : "Download specific PFX file",
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "responses" : {
             "200" : {
-                "description" : "Auto generated using Swagger Inspector",
+                "description" : "success",
                 "content" : {
                   "application/json" : {
                     "schema" : {
@@ -199,8 +459,28 @@
                   }
                 }
               },
+            "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+            "application/json" : {
+                "schema" : {
+                "type" : "object",
+                "properties" : {
+                    "error" : {
+                    "type" : "string"
+                    }
+                }
+                },
+                "examples" : {
+                "0" : {
+                    "value" : "{\"error\":\"Unauthorized\"}\n"
+                }
+            }
+            }
+            }
+            },
             "404" : {
-              "description" : "Auto generated using Swagger Inspector",
+              "description" : "not found",
               "content" : {
                 "application/json" : {
                   "schema" : {
@@ -218,22 +498,51 @@
                   }
                 }
               }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "error" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"error\":\"Internal Server Error\"}\n"
+                    }
+                  }
+                }
+              }
             }
           },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
-        },
-        "servers" : [ {
-          "url" : "https://viccnick.azurewebsites.net"
-        } ]
+          "parameters": [
+            {
+              "in": "path",
+              "name": "common_name ",
+              "schema": {
+                "type": "string"
+              },
+              "required": true
+            }
+          ]
+        }
       },
       "/api/certificates" : {
         "get" : {
-          "description" : "Auto generated using Swagger Inspector",
+          "description" : "Get Certificates",
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "responses" : {
             "200" : {
-              "description" : "Auto generated using Swagger Inspector",
+              "description" : "success",
               "content" : {
                 "application/json" : {
                   "schema" : {
@@ -311,22 +620,82 @@
                   }
                 }
               }
+            },
+            "401" : {
+                "description" : "Unauthorized",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Unauthorized\"}\n"
+                    }
+                }
+                }
+                }
+                },
+            "404" : {
+                "description" : "not found",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Page not found.\"}\n"
+                    }
+                    }
+                }
+                }
+            },
+            "500" : {
+                "description" : "Internal Server Error",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Internal Server Error\"}\n"
+                    }
+                    }
+                }
+                }
             }
-          },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
-        },
-        "servers" : [ {
-          "url" : "https://viccnick.azurewebsites.net"
-        } ]
+
+          }
+        }
       },
-      "/api/download/csr/<common_name>" : {
+      "/api/download/csr/{common_name}" : {
         "get" : {
-          "description" : "Auto generated using Swagger Inspector",
+          "description" : "Get specific CSR",
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "responses" : {
             "200" : {
-                "description" : "Auto generated using Swagger Inspector",
+                "description" : "success",
                 "content" : {
                   "application/json" : {
                     "schema" : {
@@ -353,8 +722,28 @@
                   }
                 }
               },
+            "401" : {
+            "description" : "Unauthorized",
+            "content" : {
+            "application/json" : {
+                "schema" : {
+                "type" : "object",
+                "properties" : {
+                    "error" : {
+                    "type" : "string"
+                    }
+                }
+                },
+                "examples" : {
+                "0" : {
+                    "value" : "{\"error\":\"Unauthorized\"}\n"
+                }
+            }
+            }
+            }
+            },
             "404" : {
-              "description" : "Auto generated using Swagger Inspector",
+              "description" : "not found",
               "content" : {
                 "application/json" : {
                   "schema" : {
@@ -372,22 +761,49 @@
                   }
                 }
               }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "error" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"error\":\"Internal Server Error\"}\n"
+                    }
+                  }
+                }
+              }
             }
           },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
-        },
-        "servers" : [ {
-          "url" : "https://viccnick.azurewebsites.net"
-        } ]
+            "parameters" : [ {
+                "name" : "common_name",
+                "in" : "path",
+                "required" : true,
+                "schema" : {
+                "type" : "string"
+                }
+            } ]
+        }
       },
-      "/api/download/key/<common_name>" : {
+      "/api/download/key/{common_name}" : {
         "get" : {
           "description" : "Auto generated using Swagger Inspector",
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "responses" : {
             "200" : {
-              "description" : "Auto generated using Swagger Inspector",
+              "description" : "success",
               "content" : {
                 "application/json" : {
                   "schema" : {
@@ -413,19 +829,106 @@
                   }
                 }
               }
+            },
+            "400" : {
+              "description" : "Bad Request",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "error" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"error\":\"Bad Request\"}\n"
+                    }
+                  }
+                }
+              }
+            },
+            "401" : {
+                "description" : "Unauthorized",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Unauthorized\"}\n"
+                    }
+                }
+                }
+                }
+                },
+            "404" : {
+                "description" : "not found",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Not Found\"}\n"
+                    }
+                    }
+                }
+                }
+            },
+            "500" : {
+                "description" : "Internal Server Error",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Internal Server Error\"}\n"
+                    }
+                    }
+                }
+                }
             }
           },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
-        },
-        "servers" : [ {
-          "url" : "https://viccnick.azurewebsites.net"
+          "parameters" : [ {
+            "name" : "common_name",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+            "type" : "string"
+            }
         } ]
+        }
       },
       "/api/generate_csr" : {
         "post" : {
-          "description" : "Auto generated using Swagger Inspector",
+          "description" : "Generate CSR",
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "requestBody" : {
             "content" : {
               "application/json" : {
@@ -462,7 +965,7 @@
           },
           "responses" : {
             "200" : {
-              "description" : "Auto generated using Swagger Inspector",
+              "description" : "success",
               "content" : {
                 "application/json" : {
                   "schema" : {
@@ -496,7 +999,7 @@
               }
             },
             "400" : {
-              "description" : "Auto generated using Swagger Inspector",
+              "description" : "bad request",
               "content" : {
                 "text/html; charset=utf-8" : {
                   "schema" : {
@@ -505,22 +1008,81 @@
                   "examples" : { }
                 }
               }
+            },
+            "401" : {
+                "description" : "Unauthorized",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Unauthorized\"}\n"
+                    }
+                }
+                }
+                }
+                },
+            "404" : {
+                "description" : "not found",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Not Found\"}\n"
+                    }
+                    }
+                }
+                }
+            },
+            "500" : {
+                "description" : "Internal Server Error",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Internal Server Error\"}\n"
+                    }
+                    }
+                }
+                }
             }
-          },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
-        },
-        "servers" : [ {
-          "url" : "https://viccnick.azurewebsites.net"
-        } ]
+          }
+      }
       },
       "/api/users" : {
         "get" : {
-          "description" : "Auto generated using Swagger Inspector",
+          "description" : "Get all users and number of certificates",
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "responses" : {
             "200" : {
-              "description" : "Auto generated using Swagger Inspector",
+              "description" : "success",
               "content" : {
                 "application/json" : {
                   "schema" : {
@@ -590,14 +1152,71 @@
                   }
                 }
               }
+            },
+            "401" : {
+              "description" : "Unauthorized",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "error" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"error\":\"Unauthorized\"}\n"
+                    }
+                  }
+                }
+              }
+            },
+            "404" : {
+              "description" : "not found",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "error" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"error\":\"Not Found\"}\n"
+                    }
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "error" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"error\":\"Internal Server Error\"}\n"
+                    }
+                  }
+                }
+              }
             }
-          },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
+          }
         },
         "post" : {
-          "description" : "Auto generated using Swagger Inspector",
+          "description" : "Create a User",
           "requestBody" : {
             "content" : {
               "application/json" : {
@@ -631,7 +1250,7 @@
           },
           "responses" : {
             "201" : {
-              "description" : "Auto generated using Swagger Inspector",
+              "description" : "success",
               "content" : {
                 "application/json" : {
                   "schema" : {
@@ -668,7 +1287,7 @@
               }
             },
             "400" : {
-              "description" : "Auto generated using Swagger Inspector",
+              "description" : "bad request",
               "content" : {
                 "application/json" : {
                   "schema" : {
@@ -692,60 +1311,58 @@
                   }
                 }
               }
-            }
-          },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
-        },
-        "servers" : [ {
-          "url" : "https://viccnick.azurewebsites.net"
-        } ]
-      },
-      "/api/download/pfx/apitest.test.ch" : {
-        "get" : {
-          "description" : "Auto generated using Swagger Inspector",
-          "responses" : {
-            "200" : {
-              "description" : "Auto generated using Swagger Inspector",
+            },
+            "404" :{
+              "description" : "not found",
               "content" : {
                 "application/json" : {
                   "schema" : {
                     "type" : "object",
                     "properties" : {
-                      "data" : {
-                        "type" : "object",
-                        "properties" : {
-                          "pfx" : {
-                            "type" : "string"
-                          }
-                        }
-                      },
-                      "status" : {
+                      "error" : {
                         "type" : "string"
                       }
                     }
                   },
                   "examples" : {
                     "0" : {
-                      "value" : "{\"data\":{\"pfx\":\"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\"},\"status\":\"success\"}\n"
+                      "value" : "{\"error\":\"Not Found\"}\n"
+                    }
+                  }
+                }
+              }
+            },
+            "500" : {
+              "description" : "Internal Server Error",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "error" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"error\":\"Internal Server Error\"}\n"
                     }
                   }
                 }
               }
             }
-          },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
-        },
-        "servers" : [ {
-          "url" : "https://viccnick.azurewebsites.net"
-        } ]
+          }
+        }
       },
       "/api/download/pfx" : {
         "post" : {
-          "description" : "Auto generated using Swagger Inspector",
+          "description" : "Download PFX with signed certificate",
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
           "requestBody" : {
             "content" : {
               "application/json" : {
@@ -773,7 +1390,7 @@
           },
           "responses" : {
             "200" : {
-              "description" : "Auto generated using Swagger Inspector",
+              "description" : "success",
               "content" : {
                 "application/json" : {
                   "schema" : {
@@ -799,98 +1416,99 @@
                   }
                 }
               }
-            }
-          },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
-        },
-        "servers" : [ {
-          "url" : "https://viccnick.azurewebsites.net"
-        } ]
-      },
-      "/api/tokens" : {
-        "post" : {
-          "description" : "Auto generated using Swagger Inspector",
-          "responses" : {
-            "200" : {
-              "description" : "Auto generated using Swagger Inspector",
-              "content" : {
-                "application/json" : {
-                  "schema" : {
-                    "type" : "object",
-                    "properties" : {
-                      "token" : {
-                        "type" : "string"
-                      }
-                    }
-                  },
-                  "examples" : {
-                    "0" : {
-                      "value" : "{\"token\":\"HHVtcfp/7YBt90khrSUhPAcyTizfaE51\"}\n"
-                    }
-                  }
-                }
-              }
             },
-            "401" : {
-              "description" : "Auto generated using Swagger Inspector",
-              "content" : {
-                "application/json" : {
-                  "schema" : {
-                    "type" : "object",
-                    "properties" : {
-                      "error" : {
-                        "type" : "string"
+            "400" : {
+                "description" : "Bad Request",
+                "content" : {
+                  "application/json" : {
+                    "schema" : {
+                      "type" : "object",
+                      "properties" : {
+                        "error" : {
+                          "type" : "string"
+                        }
                       }
-                    }
-                  },
-                  "examples" : {
-                    "0" : {
-                      "value" : "{\"error\":\"Unauthorized\"}\n"
+                    },
+                    "examples" : {
+                      "0" : {
+                        "value" : "{\"error\":\"Bad Request\"}\n"
+                      }
                     }
                   }
                 }
+              },
+            "401" : {
+                "description" : "Unauthorized",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Unauthorized\"}\n"
+                    }
+                }
+                }
+                }
+                },
+            "404" : {
+                "description" : "not found",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Not Found\"}\n"
+                    }
+                    }
+                }
+                }
+            },
+            "500" : {
+                "description" : "Internal Server Error",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Internal Server Error\"}\n"
+                    }
+                    }
+                  }
+                  }
               }
-            }
-          },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
-        },
-        "delete" : {
-          "description" : "Auto generated using Swagger Inspector",
-          "responses" : {
-            "204" : {
-              "description" : "Auto generated using Swagger Inspector"
-            }
-          },
-          "servers" : [ {
-            "url" : "https://viccnick.azurewebsites.net"
-          } ]
-        },
-        "servers" : [ {
-          "url" : "https://viccnick.azurewebsites.net"
-        } ]
-      }
-    },
-    "components" : {
-      "securitySchemes" : {
-        "oauth2" : {
-          "type" : "oauth2",
-          "flows" : {
-            "implicit" : {
-              "authorizationUrl" : "https://viccnick.azurewebsites.net/tokens",
-              "scopes" : {
-                "scope_name" : "Enter your scopes here"
-              }
-            }
           }
-        },
-        "basic" : {
-          "type" : "http",
-          "scheme" : "basic"
+      }
+      },
+    "info" : {
+        "title" : "VICCNick",
+        "description" : "https://github.com/realdonpromillo/certificates/blob/main/README.md",
+        "version" : "0.1"
+      },
+    "tags": [
+        {
+          "name": "api_registration"
         }
+      ]
       }
     }
-  }
