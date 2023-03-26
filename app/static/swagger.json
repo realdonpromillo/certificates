@@ -287,7 +287,7 @@
             {
               "schema": {
                 "nullable": false,
-                "pattern": "^[a-zA-Z0-9_]+$",
+                "pattern": "^[a-zA-Z0-9_.]+$",
                 "description": "username",
                 "type": "string",
                 "example": "testuser"
@@ -431,7 +431,7 @@
             {
               "schema": {
                 "nullable": false,
-                "pattern": "^[a-zA-Z0-9_]+$",
+                "pattern": "^[a-zA-Z0-9_.]+$",
                 "description": "username",
                 "type": "string",
                 "example": "testuser"
@@ -651,8 +651,8 @@
             {
               "schema": {
                 "nullable": false,
-                "pattern": "^[a-zA-Z0-9_.-]+$ . ^[a-zA-Z0-9_]+$",
                 "description": "common name",
+                "pattern": "^[a-zA-Z0-9_.]+$",
                 "type": "string",
                 "example": "testdomain.com"
               },
@@ -919,7 +919,7 @@
             {
               "schema": {
                 "nullable": false,
-                "pattern": "^[a-zA-Z0-9_.-]+$ . ^[a-zA-Z0-9_]+$",
+                "pattern": "^[a-zA-Z0-9_.]+$",
                 "description": "common name",
                 "type": "string",
                 "example": "testdomain.com"
@@ -1054,7 +1054,7 @@
             {
               "schema": {
                 "nullable": false,
-                "pattern": "^[a-zA-Z0-9_.-]+$ . ^[a-zA-Z0-9_]+$",
+                "pattern": "^[a-zA-Z0-9_.]+$",
                 "description": "common name",
                 "type": "string",
                 "example": "testdomain.com"
