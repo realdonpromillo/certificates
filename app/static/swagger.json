@@ -176,9 +176,131 @@
               }
             }
         },
-      "/api/users/{user_id}" : {
+      "/api/users/{username}" : {
+        "get" : {
+          "description" : "Get specific user by username",
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "responses" : {
+            "200" : {
+              "description" : "success",
+              "content" : {
+                "application/json" : {
+                  "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                      "_links" : {
+                        "type" : "object",
+                        "properties" : {
+                          "self" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "certificates_count" : {
+                        "type" : "integer"
+                      },
+                      "id" : {
+                        "type" : "integer"
+                      },
+                      "email" : {
+                        "type" : "string"
+                      },
+                      "username" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "examples" : {
+                    "0" : {
+                      "value" : "{\"_links\":{\"self\":\"/api/users/5\"},\"certificates_count\":51,\"email\":\"testdata@test.com\",\"id\":5,\"username\":\"testdata\"}\n"
+                    }
+                  }
+                }
+              }
+            },
+            "401" : {
+                "description" : "Unauthorized",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Unauthorized\"}\n"
+                    }
+                    }
+                }
+                }
+            },
+            "404" : {
+                "description" : "Not Found",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Not Found\"}\n"
+                    }
+                    }
+                }
+                }
+            },
+            "500" : {
+                "description" : "Internal Server Error",
+                "content" : {
+                "application/json" : {
+                    "schema" : {
+                    "type" : "object",
+                    "properties" : {
+                        "error" : {
+                        "type" : "string"
+                        }
+                    }
+                    },
+                    "examples" : {
+                    "0" : {
+                        "value" : "{\"error\":\"Internal Server Error\"}\n"
+                    }
+                    }
+                }
+                }
+            }
+          },
+          "parameters": [
+            {
+              "schema": {
+                "nullable": false,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "username",
+                "type": "string",
+                "example": "testuser"
+              },
+              "in": "path",
+              "name": "username",
+              "description": "username",
+              "required": true
+            }
+          ]
+        },
         "put" : {
-          "description" : "Get specific user",
+          "description" : "Edit own user",
           "security": [
             {
               "BearerAuth": []
@@ -307,11 +429,16 @@
           },
           "parameters": [
             {
-              "in": "path",
-              "id": "user_id",
               "schema": {
-                "type": "integer"
+                "nullable": false,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "username",
+                "type": "string",
+                "example": "testuser"
               },
+              "in": "path",
+              "name": "username",
+              "description": "username",
               "required": true
             }
           ]
@@ -522,11 +649,16 @@
           },
           "parameters": [
             {
-              "in": "path",
-              "name": "common_name ",
               "schema": {
-                "type": "string"
+                "nullable": false,
+                "pattern": "^[a-zA-Z0-9_.-]+$ . ^[a-zA-Z0-9_]+$",
+                "description": "common name",
+                "type": "string",
+                "example": "testdomain.com"
               },
+              "in": "path",
+              "name": "common_name",
+              "description": "common_name",
               "required": true
             }
           ]
@@ -783,14 +915,21 @@
               }
             }
           },
-            "parameters" : [ {
-                "name" : "common_name",
-                "in" : "path",
-                "required" : true,
-                "schema" : {
-                "type" : "string"
-                }
-            } ]
+          "parameters": [
+            {
+              "schema": {
+                "nullable": false,
+                "pattern": "^[a-zA-Z0-9_.-]+$ . ^[a-zA-Z0-9_]+$",
+                "description": "common name",
+                "type": "string",
+                "example": "testdomain.com"
+              },
+              "in": "path",
+              "name": "common_name",
+              "description": "common_name",
+              "required": true
+            }
+          ]
         }
       },
       "/api/download/key/{common_name}" : {
@@ -911,14 +1050,21 @@
                 }
             }
           },
-          "parameters" : [ {
-            "name" : "common_name",
-            "in" : "path",
-            "required" : true,
-            "schema" : {
-            "type" : "string"
+          "parameters": [
+            {
+              "schema": {
+                "nullable": false,
+                "pattern": "^[a-zA-Z0-9_.-]+$ . ^[a-zA-Z0-9_]+$",
+                "description": "common name",
+                "type": "string",
+                "example": "testdomain.com"
+              },
+              "in": "path",
+              "name": "common_name",
+              "description": "common_name",
+              "required": true
             }
-        } ]
+          ]
         }
       },
       "/api/generate_csr" : {

@@ -62,7 +62,7 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
             'email': self.email,
             'certificates_count' : self.certificates.count(),
             '_links': {
-                'self': url_for('api.get_user', id=self.id)
+                'self': url_for('api.get_user', username=self.username),
             }
             }
         return data

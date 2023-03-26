@@ -6,10 +6,11 @@ from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
 
-@bp.route('/users/<int:id>', methods=['GET'])
+@bp.route('/users/<string:username>', methods=['GET'])
 @token_auth.login_required
-def get_user(id):
-    return jsonify(User.query.get_or_404(id).to_dict())
+def get_user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return jsonify(user.to_dict())
 
 @bp.route('/users', methods=['GET'])
 @token_auth.login_required
@@ -37,12 +38,12 @@ def create_user():
     response.headers['Location'] = url_for('api.get_user', id=user.id)
     return response
 
-@bp.route('/users/<int:id>', methods=['PUT'])
+@bp.route('/users/<string:username>', methods=['PUT'])
 @token_auth.login_required
-def update_user(id):
-    if g.user.id != id:
-        abort(403, "You're only allowed to edit your own user")
-    user = User.query.get_or_404(id)
+def update_user(username):
+    if g.user.username != username:
+        return bad_request("You're only allowed to edit your own user")
+    user = User.query.filter_by(username=username).first_or_404()
     data = request.get_json() or {}
     if 'username' in data and data['username'] != user.username and \
             User.query.filter_by(username=data['username']).first():
