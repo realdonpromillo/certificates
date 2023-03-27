@@ -6,12 +6,15 @@ from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
 
+# Übernommen aus den Beispielen von Miguel Grinberg
+# Eigenentwicklung: g.user = user
 @bp.route('/users/<string:username>', methods=['GET'])
 @token_auth.login_required
 def get_user(username):
     user = User.query.filter_by(username=username).first_or_404()
     return jsonify(user.to_dict())
 
+# Übernommen aus den Beispielen von Miguel Grinberg
 @bp.route('/users', methods=['GET'])
 @token_auth.login_required
 def get_users():
@@ -20,6 +23,7 @@ def get_users():
     data = User.to_collection_dict(User.query, page, per_page, 'api.get_users')
     return jsonify(data)
 
+# Übernommen aus den Beispielen von Miguel Grinberg
 @bp.route('/users', methods=['POST'])
 def create_user():
     data = request.get_json() or {}
@@ -38,6 +42,7 @@ def create_user():
     response.headers['Location'] = url_for('api.get_user', id=user.id)
     return response
 
+# Übernommen aus den Beispielen von Miguel Grinberg
 @bp.route('/users/<string:username>', methods=['PUT'])
 @token_auth.login_required
 def update_user(username):

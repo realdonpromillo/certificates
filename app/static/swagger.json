@@ -447,11 +447,6 @@
       "/api/convert_certificate" : {
         "post" : {
           "description" : "Convert certificate",
-          "security": [
-            {
-              "BearerAuth": []
-            }
-          ],
           "requestBody" : {
             "content" : {
               "application/json" : {

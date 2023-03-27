@@ -9,12 +9,14 @@ from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
 
+# Eigenentwicklung
 @bp.route('/generate_csr', methods=['POST'])
 @token_auth.login_required
 def generate_csr():
     if not request.json:
         return bad_request('Invalid request data')
 
+    # Get data from request
     data = request.json
     country = data.get('country', "CH")
     state = data.get('state', "Bern")
@@ -56,16 +58,20 @@ def generate_csr():
     req.get_subject().ST = state
     req.get_subject().L = locality
     req.get_subject().O = organization
+    # Check if organizational unit is present
     if organizational_unit:
         req.get_subject().OU = organizational_unit
     x509_extensions = []
+    # Check if subject alternative name is present and add it to the CSR
     for san in subject_alternative_name:
         x509_extensions.append(crypto.X509Extension("subjectAltName".encode(), False, f"DNS:{san}".encode()))
 
+    # Add extensions to CSR
     req.add_extensions(x509_extensions)
     req.set_pubkey(keypair)
     req.sign(keypair, "sha256")
 
+    # Dump the keypair and CSR
     key = crypto.dump_privatekey(crypto.FILETYPE_PEM, keypair)
     csr = crypto.dump_certificate_request(crypto.FILETYPE_PEM, req)
 
@@ -73,6 +79,7 @@ def generate_csr():
     db.session.add(certificate)
     db.session.commit()
 
+    # Return the CSR and the keypair
     return jsonify({
         'status': 'success',
         'data': {
@@ -82,6 +89,8 @@ def generate_csr():
         }
     })
 
+# Übernommen aus den Beispielen von Miguel Grinberg
+# Eigenentwicklung user_id = g.user.id
 @bp.route('/certificates', methods=['GET'])
 @token_auth.login_required
 def get_certificates():
@@ -105,10 +114,13 @@ def get_certificates():
     }
     return jsonify(data)
 
+# Eigenentwicklung
 @bp.route('/download/key/<cn>', methods=['GET'])
 @token_auth.login_required
 def get_certificate_key(cn):
+    # Get corresponding key from database
     certificate = Certificate.query.filter_by(cn=cn, user_id=g.user.id).first_or_404()
+    # Return the key
     return jsonify({
         'key': certificate.key.decode(),
         '_links': {
@@ -116,10 +128,13 @@ def get_certificate_key(cn):
         }
     })
 
+# Eigenentwicklung
 @bp.route('/download/csr/<cn>', methods=['GET'])
 @token_auth.login_required
 def get_certificate_csr(cn):
+    # Get corresponding CSR from database
     certificate = Certificate.query.filter_by(cn=cn, user_id=g.user.id).first_or_404()
+    # Return the CSR
     return jsonify({
         'csr': certificate.csr.decode(),
         '_links': {
@@ -127,14 +142,18 @@ def get_certificate_csr(cn):
         }
     })
 
+# Eigenentwicklung
 @bp.route('/download/pfx/<cn>', methods=['GET'])
 @token_auth.login_required
 def download_pfx(cn):
+    # Get corresponding PFX from database
     cert = Certificate.query.filter_by(cn=cn, user_id=g.user.id).first_or_404()
 
+    # Check if PFX is present
     if not cert.pfx:
         return bad_request('No PFX file found for this certificate.')
 
+    # Return the PFX
     pfx_data_b64 = base64.b64encode(cert.pfx).decode('utf-8')
 
     return jsonify({
@@ -144,19 +163,24 @@ def download_pfx(cn):
         }
     })
 
+# Eigenentwicklung
 @bp.route('/convert_certificate', methods=['POST'])
 def convert_certificate():
+    # Check if request is valid
     if not request.json:
         return bad_request('Invalid request data')
 
+    # Get data from request
     data = request.json
     private_key = data.get('private_key')
     public_key = data.get('public_key')
     passphrase = data.get('passphrase')
 
+    # Check if required fields are present
     if not all([private_key, public_key, passphrase]):
        return bad_request('Missing required fields')
     
+    # Convert certificate and private key to PFX
     try:
         pkey = crypto.load_privatekey(crypto.FILETYPE_PEM, private_key)
         cert = crypto.load_certificate(crypto.FILETYPE_PEM, public_key)
@@ -166,9 +190,11 @@ def convert_certificate():
         pfxdata = pfx.export(passphrase=passphrase)
         # Convert pfx_data to a Base64-encoded string
         pfx_data_b64 = base64.b64encode(pfxdata).decode('utf-8')
+    # Return error if conversion fails
     except Exception as e:
         return bad_request(f'Invalid certificate or private key: {e}')
     
+    # Return the PFX
     return jsonify({
         'status': 'success',
         'data': {
@@ -176,22 +202,28 @@ def convert_certificate():
         }
     })
 
+# Eigenentwicklung
 @bp.route('/download/pfx', methods=['POST'])
 @token_auth.login_required
 def download_pfx_from_cert():
+    # Check if request is valid
     if not request.json:
         return bad_request('Invalid request data')
     
+    # Get data from request
     data = request.json
     cn = data.get('cn')
     certificate = data.get('certificate')
     passphrase = data.get('passphrase')
 
+    # Check if key exists in database
     existing_key = Certificate.query.filter_by(cn=cn, user_id=g.user.id).first()
     private_key = existing_key.key
+    # Return error if key does not exist
     if not existing_key:
         return bad_request('The Private Key for the Common Name in the CSR does not exist in the database')
 
+    # Convert certificate and private key to PFX
     try:
         pkey = crypto.load_privatekey(crypto.FILETYPE_PEM, private_key)
         cert = crypto.load_certificate(crypto.FILETYPE_PEM, certificate)
@@ -204,10 +236,11 @@ def download_pfx_from_cert():
         # Convert pfx_data to a Base64-encoded string
         pfx_data_b64 = base64.b64encode(pfx_data).decode('utf-8')
 
+    # Return error if conversion fails
     except Exception as e:
         return bad_request(f'Invalid certificate or private key: {e}')
 
-
+    # Return the PFX
     return jsonify({
         'status': 'success',
         'data': {

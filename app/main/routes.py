@@ -14,13 +14,18 @@ import os
 
 #Übernommen aus den Beispielen von Miguel Grinberg
 @bp.route('/')
+
+# Eigentwicklung
 @bp.route('/index')
 @login_required
 def index():
+    # If user is logged in, redirect to user page
     return redirect(url_for('main.user', username=current_user.username))
 
+# Eigenentwicklung
 @bp.route('/favicon.ico')
 def favicon():
+    # Favicon
     return send_from_directory(os.path.join(current_app.root_path, 'static'),
                                'favicon.png', mimetype='image/vnd.microsoft.icon')
 
@@ -59,22 +64,27 @@ def generate_csr():
         req.get_subject().ST = state
         req.get_subject().L = locality
         req.get_subject().O = organization
+        # if organizational_unit is present add it to the request
         if organizational_unit:
             req.get_subject().OU = organizational_unit
         x509_extensions = ([])
         sans_list = []
+        # if subject_alternative_name is present add it to the request
         for san in subject_alternative_name:
             sans_list.append("DNS: {0}".format(san))
 
         sans_list = ", ".join(sans_list).encode()
 
+        # if sans_list is not empty add it to the request
         if sans_list:
             x509_extensions.append(crypto.X509Extension("subjectAltName".encode(), False, sans_list))
 
+        # add extensions to the request
         req.add_extensions(x509_extensions)
         req.set_pubkey(keypair)
         req.sign(keypair, "sha256")
 
+        # Save the CSR and private key to the database
         key = crypto.dump_privatekey(crypto.FILETYPE_PEM, keypair)
         csr = crypto.dump_certificate_request(crypto.FILETYPE_PEM, req)
 
@@ -82,7 +92,6 @@ def generate_csr():
         db.session.add(certificate)
         db.session.commit()
         
-        #response = b'\n'.join([csr, key])
         return render_template('csr.html', cn=common_name,csr=csr, key=key)
 
 
@@ -128,6 +137,7 @@ def download_certificate():
             response.headers.set('Content-Type', 'application/x-pkcs12')
             return response
         
+        # If something goes wrong abort with 500
         except Exception as e:
             abort(500)
             
@@ -163,6 +173,7 @@ def convert_certificate():
             response.headers.set('Content-Type', 'application/x-pkcs12')
             return response
         
+        # If something goes wrong abort with 500
         except Exception as e:
             abort(500)
         
@@ -172,6 +183,7 @@ def convert_certificate():
 @bp.route('/csr/download/<string:cn>')
 @login_required
 def download_csr(cn):
+    # Get the CSR from the database or abort with 404 if it does not exist
     csr = Certificate.query.filter_by(cn=cn, user_id=current_user.id).first()
     if csr is None:
         abort(404)
@@ -191,6 +203,7 @@ def download_csr(cn):
 @bp.route('/key/download/<string:cn>')
 @login_required
 def download_key(cn):
+    # Get the key from the database or abort with 404 if it does not exist
     key = Certificate.query.filter_by(cn=cn, user_id=current_user.id).first()
     if key is None:
         abort(404)
@@ -210,6 +223,7 @@ def download_key(cn):
 @bp.route('/pfx/download/<string:cn>')
 @login_required
 def download_pfx(cn):
+    # Get the PFX from the database or abort with 404 if it does not exist
     certificate = Certificate.query.filter_by(cn=cn, user_id=current_user.id).first()
     if certificate is None:
         abort(404)
@@ -220,16 +234,18 @@ def download_pfx(cn):
     response.headers.set('Content-Type', 'application/x-pkcs12')
     return response
 
-# Übernommen aus den Beispielen von Miguel Grinberg, ergänzt mit den eigenen Datenbankfeldern
+# Übernommen aus den Beispielen von Miguel Grinberg, 
+# Eigentwicklung: Eigene Datenbankfelder integriert
 @bp.route('/user/<username>')
 @login_required
 def user(username):
+    # Check if the user is an admin or not
     user = User.query.filter_by(username=username).first_or_404()
     if user.is_admin != True:
         not_admin = True
     else:
         not_admin = False
-    ##certificates = user.certificates.order_by(Certificate.timestamp.desc())
+    # Get the certificates from the database
     page = request.args.get('page', 1, type=int)
     certificates = current_user.certificates.order_by(Certificate.timestamp.desc()).paginate(
         page=page, per_page=current_app.config['CERTIFICATES_PER_PAGE'], error_out=False)
@@ -261,17 +277,22 @@ def edit_profile():
 @bp.route('/delete_certificate/<int:id>', methods=['POST'])
 @login_required
 def delete_certificate(id):
+    # Get the certificate from the database or abort with 404 if it does not exist
     certificate = Certificate.query.get_or_404(id)
+    # Check if the user is the owner of the certificate or abort with 403
     if certificate.user_id != current_user.id:
         abort(403)
+    # Delete the certificate from the database
     db.session.delete(certificate)
     db.session.commit()
     flash('Certificate deleted.')
     return redirect(url_for('main.user', username=current_user.username))
 
+# Eigenentwicklung
 @bp.route('/admin_certs')
 @login_required
 def admin_certs():
+    # Check if the user is an admin or not and abort with 403 if not
     if current_user.is_admin is False:
         abort(403)
     page = request.args.get('page', 1, type=int)
@@ -285,9 +306,11 @@ def admin_certs():
     return render_template('admin_certs.html', title='Certs Admin', username=current_user.username, users=users, certificates=certificates,
                            next_url=next_url, prev_url=prev_url)
 
+# Eigenentwicklung
 @bp.route('/admin_users')
 @login_required
 def admin_users():
+    # Check if the user is an admin or not and abort with 403 if not
     if current_user.is_admin is False:
         abort(403)
     page = request.args.get('page', 1, type=int)
@@ -300,24 +323,31 @@ def admin_users():
     return render_template('admin_users.html', title='Users Admin', user=current_user, users=users,
                            next_url=next_url, prev_url=prev_url)
 
+# Eigenentwicklung
 @bp.route('/admin_delete_user/<int:id>', methods=['POST'])
 @login_required
 def admin_delete_user(id):
+    # Check if the user is an admin or not and abort with 403 if not
     user = User.query.get_or_404(id)
     if user.id != current_user.id:
         if current_user.is_admin is False:
             abort(403)
+    
+    # Delete the user from the database
     db.session.delete(user)
     db.session.commit()
     flash('User deleted.')
     return redirect(url_for('main.admin_users'))
 
+# Eigenentwicklung
 @bp.route('/admin_unlock_user/<int:id>', methods=['POST'])
 @login_required
 def admin_unlock_user(id):
+    # Check if the user is an admin or not and abort with 403 if not
     if current_user.is_admin is False:
         abort(403)
     user = User.query.get_or_404(id)
+    # Unlock the user
     user.lockout_time = None
     user.login_locked = False
     user.login_attempts = 0
@@ -325,12 +355,15 @@ def admin_unlock_user(id):
     flash('User unlocked.')
     return redirect(url_for('main.admin_users'))
 
+# Eigenentwicklung
 @bp.route('/admin_make_admin/<int:id>', methods=['POST'])
 @login_required
 def admin_make_admin(id):
+    # Check if the user is an admin or not and abort with 403 if not
     if current_user.is_admin is False:
         abort(403)
     user = User.query.get_or_404(id)
+    # Make the user an admin
     user.is_admin = True
     db.session.commit()
     flash('User is now admin.')

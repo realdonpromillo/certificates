@@ -7,6 +7,8 @@ from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm, ResetPasswordForm
 from app.models import User
 
+# Übernommen aus den Beispielen von Miguel Grinberg
+# Eigenentwicklung User lockout
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -46,11 +48,13 @@ def login():
 
     return render_template('auth/login.html', title='Sign In', form=form)
 
+# Übernommen aus den Beispielen von Miguel Grinberg
 @bp.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
 
+# Übernommen aus den Beispielen von Miguel Grinberg
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -65,6 +69,7 @@ def register():
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', title='Register', form=form)
 
+# Übernommen aus den Beispielen von Miguel Grinberg
 @bp.route('/reset_password_request', methods=['GET', 'POST'])
 @login_required
 def reset_password_request():

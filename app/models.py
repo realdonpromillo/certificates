@@ -32,6 +32,7 @@ class PaginatedAPIMixin(object):
             }
         }
         return data
+
 #Übernommen aus den Beispiele von Miguel Grinberg
 class User(UserMixin, PaginatedAPIMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,6 +56,7 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
     
+    # Eigenentwicklung
     def to_dict(self):
         data = {
             'id': self.id,
@@ -67,6 +69,7 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
             }
         return data
     
+    # Übernommen aus den Beispiele von Miguel Grinberg
     def from_dict(self, data, new_user=False):
         for field in ['username', 'email']:
             if field in data:
@@ -74,6 +77,7 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
         if new_user and 'password' in data:
             self.set_password(data['password'])
 
+    # Übernommen aus den Beispiele von Miguel Grinberg
     def get_token(self, expires_in=3600):
         now = datetime.utcnow()
         if self.token and self.token_expiration > now + timedelta(seconds=60):
@@ -83,9 +87,11 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
         db.session.add(self)
         return self.token
 
+    # Übernommen aus den Beispiele von Miguel Grinberg
     def revoke_token(self):
         self.token_expiration = datetime.utcnow() - timedelta(seconds=1)
 
+    # Übernommen aus den Beispiele von Miguel Grinberg
     @staticmethod
     def check_token(token):
         user = User.query.filter_by(token=token).first()
@@ -93,24 +99,28 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
             return None
         return user
     
+    # Eigenentwicklung
     def lockout(self):
         self.login_locked = True
         self.login_attempts = 0
         self.lockout_time = datetime.utcnow()
         db.session.commit()
 
+    # Eigenentwicklung
     def unlock(self):
         self.login_locked = False
         self.login_attempts = 0
         self.lockout_time = None
         db.session.commit()
 
+    # Eigenentwicklung
     def add_login_attempt(self):
         self.login_attempts += 1
         if self.login_attempts >= 10:
             self.lockout()
         db.session.commit()
 
+    # Eigenentwicklung
     def make_admin(self):
         self.is_admin = True
         db.session.commit()

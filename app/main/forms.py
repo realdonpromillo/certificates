@@ -3,8 +3,10 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextA
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import User, Certificate
 
+# Eigenentwicklung
 class CSRForm(FlaskForm):
     country = StringField('Country', validators=[DataRequired(), Length(min=2, max=2)], default='CH')
+    # Dropdown-Liste für die Auswahl des Kantons
     state = SelectField('State', validators=[DataRequired()], default = 'Bern',choices = [
         ('Aargau', 'Aargau'),
         ('Appenzell Ausserrhoden', 'Appenzell Ausserrhoden'),
@@ -32,6 +34,7 @@ class CSRForm(FlaskForm):
         ('Zug', 'Zug'),
         ('Zürich', 'Zürich'),
     ] )
+    # Dropdown-Liste für die Auswahl des Kantons
     locality = SelectField('Locality', validators=[DataRequired()], default = 'Bern',choices = [
         ('Aargau', 'Aargau'),
         ('Appenzell Ausserrhoden', 'Appenzell Ausserrhoden'),
@@ -65,6 +68,7 @@ class CSRForm(FlaskForm):
     subject_alternative_name = StringField('Subject Alternative Name')
     submit = SubmitField('Generate CSR')
 
+# Eigenentwicklung
 class CertForm(FlaskForm):
     common_name = StringField('Common Name', validators=[DataRequired()])
     certificate = TextAreaField('Signed Certificate (-----BEGIN CERTIFICATE-----)', validators=[DataRequired()])
@@ -73,6 +77,7 @@ class CertForm(FlaskForm):
         'Repeat Password', validators=[DataRequired(), EqualTo('password'), Length(min=8, max=128)])
     submit = SubmitField('Generate PFX')
 
+# Übernommen aus den Beispielen von Miguel Grinberg
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=4, max=64)])
     email = StringField('Email', validators=[DataRequired(), Email(), Length(min=4, max=120)])
@@ -94,7 +99,8 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user is not None:
                 raise ValidationError('Please use a different email address.')
-    
+
+# Eigenentwicklung
 class ConvertCertificateForm(FlaskForm):
     private_key = TextAreaField('Private Key (-----BEGIN PRIVATE KEY-----)', validators=[DataRequired()])
     public_key = TextAreaField('Signed Certificate (-----BEGIN CERTIFICATE-----)', validators=[DataRequired()])

@@ -1,3 +1,4 @@
+# Übernommen aus den Beispielen von Miguel Grinberg
 from flask import Blueprint
 
 bp = Blueprint('main', __name__)
